@@ -1,0 +1,15 @@
+import test;
+
+class Main {
+
+    int testNumber = 5;
+    String testString = "Default String" { get; set; }
+
+    Main(String name) {
+
+    }
+
+    void main(String[] args) {
+
+    }
+}
