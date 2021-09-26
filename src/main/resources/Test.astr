@@ -1,15 +1,26 @@
 import test;
 
-class Main {
+dictionary {
+    class Main {
+        int testNumber = 5;
+        String testString = "Default String" { get; set; }
 
-    int testNumber = 5;
-    String testString = "Default String" { get; set; }
+        Main(String name) {
 
-    Main(String name) {
+        }
+
+        init(String[] args) :: int {
+
+        }
+
+        testMethod() :: int => return 1;
+    }
+
+    class Test :: Super {
 
     }
 
-    void main(String[] args) {
+    abstract Super {
 
     }
 }

@@ -1,12 +1,12 @@
 package com.github.interpreter.parser.variable;
 
+import com.github.interpreter.language.Field;
 import com.github.interpreter.parser.Declarator;
 import com.github.interpreter.parser.type.VariableTypeDeclarator;
-import com.github.interpreter.token.type.IdentifierToken;
-import com.github.interpreter.token.type.KeywordToken;
-import com.github.interpreter.token.type.OperatorToken;
-import com.github.interpreter.token.type.Token;
+import com.github.interpreter.token.type.*;
 import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException;
+
+import java.util.Arrays;
 
 public class VariableDeclarator implements Declarator {
 
@@ -26,22 +26,20 @@ public class VariableDeclarator implements Declarator {
 
         Token initializerToken = tokens[tokenIndex++];
 
-        if (initializerToken instanceof IdentifierToken) {
-            type = (VariableTypeDeclarator) new VariableTypeDeclarator(this).parse(new Token[]{initializerToken});
-        } else if (initializerToken instanceof KeywordToken) {
-            if (((KeywordToken) initializerToken).getKeyWord().equals(KeywordToken.KeyWord.FINAL)) {
-                declaredFinal = true;
-            } else {
-                throw new UnknownSyntaxException("Something went wrong when initializing variable.");
-            }
-        }
-
-        if (initializerToken == null) {
-            initializerToken = tokens[tokenIndex++];
-            if (initializerToken instanceof IdentifierToken) {
+        switch (initializerToken.getTokenType()) {
+            case IDENTIFIER, TYPE -> {
                 type = (VariableTypeDeclarator) new VariableTypeDeclarator(this).parse(new Token[]{initializerToken});
-            } else {
-                throw new UnknownSyntaxException("Something went wrong when initializing variable.");
+            }
+
+            case KEYWORD -> {
+                KeyWord keyWord = ((KeywordToken) initializerToken).getKeyWord();
+                if (keyWord != null && keyWord.equals(KeyWord.FINAL)) {
+                    declaredFinal = true;
+                    initializerToken = tokens[tokenIndex++];
+                    type = (VariableTypeDeclarator) new VariableTypeDeclarator(this).parse(new Token[]{initializerToken});
+                } else {
+                    throw new UnknownSyntaxException("Something went wrong when initializing variable.");
+                }
             }
         }
 
@@ -56,12 +54,25 @@ public class VariableDeclarator implements Declarator {
         if (equalsToken instanceof OperatorToken) {
             if (!equalsToken.getValue().equalsIgnoreCase("=")) {
                 throw new UnknownSyntaxException("Something went wrong when initializing variable.");
+            } else {
+                VariableInitializer initializer = new VariableInitializer();
+                initializer.parse(Arrays.copyOfRange(tokens, tokenIndex, tokens.length));
+                if (initializer.getExpression() != null) {
+                    this.initializer = initializer;
+                }
             }
         } else {
             throw new UnknownSyntaxException("Something went wrong when initializing variable.");
         }
 
-        return null;
+        return this;
+    }
+
+    public Field buildField() {
+        Field field = new Field(name);
+        field.setInitializer(initializer.getExpression());
+        //field.setReturnType(type.getType());
+        return field;
     }
 
     public String getName() {

@@ -5,6 +5,7 @@ public class IdentifierToken extends Token {
     private String identifier;
 
     public IdentifierToken(String identifier) {
+        super(TokenType.IDENTIFIER);
         this.identifier = identifier;
     }
 

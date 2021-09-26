@@ -2,12 +2,22 @@ package com.github.interpreter.token.type;
 
 public abstract class Token {
 
+    private final TokenType tokenType;
+
     private Token rightSide;
     private Token leftSide;
+
+    public Token(TokenType tokenType) {
+        this.tokenType = tokenType;
+    }
 
     public abstract String getValue();
 
     public abstract void setValue(String value);
+
+    public TokenType getTokenType() {
+        return tokenType;
+    }
 
     public Token getRightSide() {
         return rightSide;

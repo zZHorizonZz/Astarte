@@ -16,9 +16,6 @@ public class VariableInitializer {
     }
 
     public Expression parse(Token[] tokens) {
-        for (Token token : tokens) {
-            System.out.println("Token Type: " + token.getClass().getSimpleName());
-        }
         if (tokens[0].hasRightSide() && tokens[0].getRightSide() instanceof SeparatorToken) {
             expression = evaluateVariable(tokens[0]);
             return expression;
@@ -47,7 +44,6 @@ public class VariableInitializer {
         Expression leftSide = evaluateVariable(tokens[0]);
         Expression rightSide = evaluateVariable(tokens[2]);
 
-        System.out.println("Left side!: " + rightSide != null);
         while (currentToken.hasRightSide()) {
             currentToken = currentToken.getRightSide();
             if (currentToken instanceof OperatorToken) {
@@ -55,7 +51,6 @@ public class VariableInitializer {
 
                 currentToken = currentToken.getRightSide();
                 rightSide = new OperatorExpression(leftSide, evaluateVariable(currentToken), name);
-                System.out.println("Left side@: " + rightSide != null);
             }
 
             if (currentToken instanceof SeparatorToken) {
@@ -66,9 +61,11 @@ public class VariableInitializer {
             }
         }
 
-        System.out.println("Left side #: " + rightSide != null);
-
         this.expression = rightSide;
         return rightSide;
+    }
+
+    public Expression getExpression() {
+        return expression;
     }
 }

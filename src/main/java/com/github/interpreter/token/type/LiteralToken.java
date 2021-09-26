@@ -5,6 +5,7 @@ public class LiteralToken extends Token {
     private String literal;
 
     public LiteralToken(String literal) {
+        super(TokenType.LITERAL);
         this.literal = literal;
     }
 

@@ -2,17 +2,17 @@ package com.github.interpreter.parser.type;
 
 import com.github.interpreter.parser.Declarator;
 import com.github.interpreter.parser.variable.VariableDeclarator;
-import com.github.interpreter.token.type.IdentifierToken;
-import com.github.interpreter.token.type.KeywordToken;
 import com.github.interpreter.token.type.Token;
+import com.github.interpreter.token.type.Type;
 import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException;
-import org.apache.commons.lang3.EnumUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class VariableTypeDeclarator implements Declarator {
 
     private final VariableDeclarator declarator;
     private String name;
+
+    private Type type;
 
     public VariableTypeDeclarator(VariableDeclarator declarator) {
         this.declarator = declarator;
@@ -25,18 +25,23 @@ public class VariableTypeDeclarator implements Declarator {
         }
 
         Token token = tokens[0];
-        if (token instanceof IdentifierToken) {
-            this.name = token.getValue();
-        } else if (token instanceof KeywordToken) {
-            if (!StringUtils.isAllLowerCase(token.getValue())) {
-                throw new UnknownSyntaxException("Variable has been recognized as keyword but there is problem with it's casing.");
+        switch (token.getTokenType()) {
+            case IDENTIFIER -> {
+                this.name = token.getValue();
             }
 
-            KeywordToken.VariableKeyWord keyWord = EnumUtils.getEnum(KeywordToken.VariableKeyWord.class, token.getValue());
-            if (keyWord != null) {
-                this.name = token.getValue();
-            } else {
-                throw new UnknownSyntaxException("Variable has been recognized as keyword but is not recognized as allowed variable.");
+            case TYPE -> {
+                if (!StringUtils.isAllLowerCase(token.getValue())) {
+                    throw new UnknownSyntaxException("Variable has been recognized as keyword but there is problem with it's casing.");
+                }
+
+                Type type = Type.getByName(token.getValue());
+                if (type != null) {
+                    this.type = type;
+                    this.name = token.getValue();
+                } else {
+                    throw new UnknownSyntaxException("Variable has been recognized as keyword but is not recognized as allowed variable.");
+                }
             }
         }
 
@@ -49,5 +54,17 @@ public class VariableTypeDeclarator implements Declarator {
 
     public String getName() {
         return name;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public boolean isType() {
+        return type != null;
+    }
+
+    public boolean isIdentifier() {
+        return type == null;
     }
 }

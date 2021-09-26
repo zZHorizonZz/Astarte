@@ -5,6 +5,7 @@ public class SeparatorToken extends Token {
     private String separator;
 
     public SeparatorToken(String separator) {
+        super(TokenType.SEPARATOR);
         this.separator = separator;
     }
 

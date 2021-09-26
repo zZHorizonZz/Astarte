@@ -5,7 +5,8 @@ import java.util.Arrays;
 public enum TokenType {
 
     IDENTIFIER(),
-    KEYWORD("if", "else", "while", "return", "final", "byte", "short", "int", "long", "float", "double", "boolean", "string"),
+    KEYWORD("if", "else", "while", "return", "final"),
+    TYPE("byte", "short", "int", "long", "float", "double", "boolean", "string"),
     LITERAL(),
     OPERATOR("+", "-", "=", "<<", ">>>", ">>"),
     SEPARATOR("(", ")", ";", "{", "}", "."),

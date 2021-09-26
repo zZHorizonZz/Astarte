@@ -5,6 +5,7 @@ public class KeywordToken extends Token {
     private String keyword;
 
     public KeywordToken(String keyword) {
+        super(TokenType.KEYWORD);
         this.keyword = keyword;
     }
 
@@ -19,45 +20,6 @@ public class KeywordToken extends Token {
     }
 
     public KeyWord getKeyWord() {
-        return KeyWord.valueOf(keyword);
-    }
-
-    public enum KeyWord {
-        IF("if"),
-        ELSE("else"),
-        WHILE("while"),
-        RETURN("return"),
-        FINAL("final");
-
-        private final String keyword;
-
-        KeyWord(String keyword) {
-            this.keyword = keyword;
-        }
-
-        public String getKeyword() {
-            return keyword;
-        }
-    }
-
-    public enum VariableKeyWord {
-        BYTE("byte"),
-        SHORT("short"),
-        INT("int"),
-        LONG("long"),
-        FLOAT("float"),
-        DOUBLE("double"),
-        BOOLEAN("boolean"),
-        STRING("string");
-
-        private final String variableKeyWord;
-
-        VariableKeyWord(String variableKeyWord) {
-            this.variableKeyWord = variableKeyWord;
-        }
-
-        public String getVariableKeyWord() {
-            return variableKeyWord;
-        }
+        return KeyWord.getByName(keyword);
     }
 }

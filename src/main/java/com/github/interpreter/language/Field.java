@@ -1,34 +1,55 @@
 package com.github.interpreter.language;
 
-import com.github.interpreter.token.type.Token;
-
-import java.util.Arrays;
+import com.github.interpreter.language.number.Number;
+import com.github.interpreter.language.operator.ArithmeticalOperator;
+import com.github.interpreter.parser.expression.Expression;
+import com.github.interpreter.parser.expression.OperatorExpression;
+import com.github.interpreter.token.type.TokenType;
 
 public class Field {
 
-    private final Token[] tokens;
+    private String name;
+    private TokenType returnType;
 
-    private String returnName;
-    private Token returnType;
+    private Expression initializer;
 
-    private Token value;
-
-    public Field(Token[] tokens) {
-        this.tokens = tokens;
+    public Field(String name) {
+        this.name = name;
     }
 
-    public Token run() {
-        Token returnType = tokens[0];
-        Token returnName = tokens[1];
+    //TODO: Finish object
 
-        Token operator = tokens[2];
-
-        Token[] code = Arrays.copyOfRange(tokens, 3, tokens.length);
+    public Object run() {
+        if (initializer instanceof OperatorExpression) {
+            Number number = new ArithmeticalOperator(((OperatorExpression) initializer).getOperator()).process((OperatorExpression) initializer);
+            System.out.println("Number: " + number.getClass().getSimpleName());
+            return number;
+        }
 
         return null;
     }
 
-    public Token[] getTokens() {
-        return tokens;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public TokenType getReturnType() {
+        return returnType;
+    }
+
+    public void setReturnType(TokenType returnType) {
+        this.returnType = returnType;
+    }
+
+    public Expression getInitializer() {
+        return initializer;
+    }
+
+    public void setInitializer(Expression initializer) {
+        this.initializer = initializer;
     }
 }

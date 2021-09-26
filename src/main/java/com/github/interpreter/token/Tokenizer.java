@@ -108,6 +108,10 @@ public class Tokenizer {
             case SEPARATOR -> {
                 return new SeparatorToken(word);
             }
+
+            case TYPE -> {
+                return new TypeToken(word);
+            }
         }
 
         return new IdentifierToken(word);

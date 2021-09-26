@@ -1,6 +1,7 @@
 package com.github.interpreter.parser.type;
 
 import com.github.interpreter.parser.variable.VariableDeclarator;
+import com.github.interpreter.token.type.KeyWord;
 import com.github.interpreter.token.type.KeywordToken;
 import com.github.interpreter.token.type.Token;
 import com.github.interpreter.token.type.TokenType;
@@ -14,14 +15,9 @@ class VariableTypeDeclaratorTest {
     @Test
     void parse() {
         for (String keyword : TokenType.KEYWORD.getKeywords()) {
-            KeywordToken.KeyWord badKeyWord = EnumUtils.getEnum(KeywordToken.KeyWord.class, keyword);
-            KeywordToken.VariableKeyWord rightKeyWord = EnumUtils.getEnum(KeywordToken.VariableKeyWord.class, keyword);
+            KeyWord rightKeyWord = EnumUtils.getEnum(KeyWord.class, keyword);
 
             VariableTypeDeclarator declarator = new VariableTypeDeclarator(new VariableDeclarator());
-            if (badKeyWord != null) {
-                Assertions.assertThrows(UnknownSyntaxException.class, () -> declarator.parse(new Token[]{new KeywordToken(keyword)}));
-                continue;
-            }
 
             if (rightKeyWord != null) {
                 Assertions.assertDoesNotThrow(() -> declarator.parse(new Token[]{new KeywordToken(keyword)}));

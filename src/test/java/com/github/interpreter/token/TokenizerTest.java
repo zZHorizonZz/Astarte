@@ -19,7 +19,7 @@ public class TokenizerTest {
     private void testValue(String keyword, String value) {
         Tokenizer tokenizer = new Tokenizer(keyword + " field = " + value + ";");
         List<Token> tokenList = tokenizer.tokenize();
-        Assertions.assertEquals(KeywordToken.class, tokenList.get(0).getClass());
+        Assertions.assertEquals(TypeToken.class, tokenList.get(0).getClass());
         Assertions.assertEquals(keyword, tokenList.get(0).getValue());
 
         Assertions.assertEquals(IdentifierToken.class, tokenList.get(1).getClass());

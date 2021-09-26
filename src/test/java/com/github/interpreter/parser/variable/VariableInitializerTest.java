@@ -19,10 +19,6 @@ class VariableInitializerTest {
         Tokenizer tokenizer = new Tokenizer("int field = 5;");
         List<Token> tokenList = tokenizer.tokenize();
 
-        for (Token token : tokenList) {
-            System.out.println("Token Type: " + token.getClass().getSimpleName() + " Value: " + token.getValue());
-        }
-
         Expression expression = initializer.parse(Arrays.copyOfRange(tokenList.toArray(new Token[0]), 3, 5));
         Assertions.assertEquals(VariableExpression.class, expression.getClass());
         Assertions.assertEquals("5", ((VariableExpression) expression).getValue());
@@ -34,12 +30,12 @@ class VariableInitializerTest {
         Tokenizer tokenizer = new Tokenizer("int field = 5 + 5;");
         List<Token> tokenList = tokenizer.tokenize();
 
-        for (Token token : tokenList) {
-            System.out.println("Token Type: " + token.getClass().getSimpleName() + " Value: " + token.getValue());
-        }
-
         Expression expression = initializer.parse(Arrays.copyOfRange(tokenList.toArray(new Token[0]), 3, tokenList.size()));
         Assertions.assertEquals(OperatorExpression.class, expression.getClass());
         Assertions.assertEquals("+", ((OperatorExpression) expression).getOperator());
+        Assertions.assertEquals(VariableExpression.class, ((OperatorExpression) expression).getLeftSide().getClass());
+        Assertions.assertEquals("5", ((VariableExpression) ((OperatorExpression) expression).getLeftSide()).getValue());
+        Assertions.assertEquals(VariableExpression.class, ((OperatorExpression) expression).getRightSide().getClass());
+        Assertions.assertEquals("5", ((VariableExpression) ((OperatorExpression) expression).getRightSide()).getValue());
     }
 }
