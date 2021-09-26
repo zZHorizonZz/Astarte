@@ -1,6 +1,5 @@
 package com.github.interpreter.language;
 
-import com.github.interpreter.language.number.Number;
 import com.github.interpreter.language.operator.ArithmeticalOperator;
 import com.github.interpreter.parser.expression.Expression;
 import com.github.interpreter.parser.expression.OperatorExpression;
@@ -21,9 +20,7 @@ public class Field {
 
     public Object run() {
         if (initializer instanceof OperatorExpression) {
-            Number number = new ArithmeticalOperator(((OperatorExpression) initializer).getOperator()).process((OperatorExpression) initializer);
-            System.out.println("Number: " + number.getClass().getSimpleName());
-            return number;
+            return new ArithmeticalOperator(((OperatorExpression) initializer).getOperator()).process((OperatorExpression) initializer);
         }
 
         return null;

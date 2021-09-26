@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Random;
 
 class VariableDeclaratorTest {
 
@@ -39,5 +40,24 @@ class VariableDeclaratorTest {
 
         Assertions.assertEquals(Integer.class, number.getClass());
         Assertions.assertEquals(10, ((Integer) number).getValue());
+    }
+
+    @Test
+    void testBuildRandomField() {
+        Random random = new Random();
+        int leftSide = random.nextInt(java.lang.Integer.MAX_VALUE / 4);
+        int rightSide = random.nextInt(java.lang.Integer.MAX_VALUE / 2);
+
+        VariableDeclarator variableDeclarator = new VariableDeclarator();
+        Tokenizer tokenizer = new Tokenizer("int field = " + leftSide + " + " + rightSide + ";");
+        List<Token> tokenList = tokenizer.tokenize();
+
+        variableDeclarator = (VariableDeclarator) variableDeclarator.parse(tokenList.toArray(new Token[0]));
+
+        Field field = variableDeclarator.buildField();
+        Object number = field.run();
+
+        Assertions.assertEquals(Integer.class, number.getClass());
+        Assertions.assertEquals(leftSide + rightSide, ((Integer) number).getValue());
     }
 }
