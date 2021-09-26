@@ -1,5 +1,7 @@
 package com.github.interpreter.token.type;
 
+import java.util.Arrays;
+
 public enum TokenType {
 
     IDENTIFIER(),
@@ -31,6 +33,10 @@ public enum TokenType {
         }
 
         return TokenType.UNKNOWN;
+    }
+
+    public static TokenType[] getDeterminedTokens() {
+        return Arrays.stream(values()).filter(token -> token.getKeywords() != null && token.getKeywords().length > 0).toArray(TokenType[]::new);
     }
 
     public String[] getKeywords() {

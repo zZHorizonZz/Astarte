@@ -1,6 +1,6 @@
 package com.github.interpreter.token.type;
 
-public class OperatorToken implements Token {
+public class OperatorToken extends Token {
 
     private String operator;
 

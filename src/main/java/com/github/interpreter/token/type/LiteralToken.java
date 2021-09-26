@@ -1,6 +1,6 @@
 package com.github.interpreter.token.type;
 
-public class LiteralToken implements Token {
+public class LiteralToken extends Token {
 
     private String literal;
 

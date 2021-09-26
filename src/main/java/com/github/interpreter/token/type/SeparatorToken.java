@@ -1,6 +1,6 @@
 package com.github.interpreter.token.type;
 
-public class SeparatorToken implements Token {
+public class SeparatorToken extends Token {
 
     private String separator;
 

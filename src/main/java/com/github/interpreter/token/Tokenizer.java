@@ -25,6 +25,7 @@ public class Tokenizer {
 
         Token lastToken = null;
 
+        master:
         for (int i = 0; i < wordsChars.length; i++) {
             if (i > 0 && wordsChars[i - 1] != '\\' && wordsChars[i] == '"') {
                 wordBuilder.append(wordsChars[i]);
@@ -38,42 +39,47 @@ public class Tokenizer {
 
                 words.add(wordBuilder.toString());
                 wordBuilder = new StringBuilder();
-            } else if (wordsChars[i] != ' ') {
-                wordBuilder.append(wordsChars[i++]);
-                while (i + 1 < wordsChars.length && wordsChars[i] != ' ') {
-                    wordBuilder.append(wordsChars[i++]);
+            } else {
+                if (wordsChars[i] == ' ') {
+                    continue;
                 }
 
-                words.add(wordBuilder.toString());
-                wordBuilder = new StringBuilder();
+                wordBuilder.append(wordsChars[i]);
+                for (TokenType type : TokenType.getDeterminedTokens()) {
+                    for (String keyword : type.getKeywords()) {
+                        String word = wordBuilder.toString();
+
+                        if (word.equals(keyword)) {
+                            words.add(keyword);
+                            wordBuilder = new StringBuilder();
+                            continue master;
+                        } else if (word.startsWith(keyword)) {
+                            words.add(word.substring(keyword.length()));
+                            words.add(keyword);
+                            wordBuilder = new StringBuilder();
+                        } else if (word.endsWith(keyword)) {
+                            words.add(word.substring(0, word.lastIndexOf(keyword)));
+                            words.add(keyword);
+                            wordBuilder = new StringBuilder();
+                            continue master;
+                        }
+                    }
+                }
+
+                if (wordsChars[i + 1] == ' ') {
+                    words.add(wordBuilder.toString());
+                    wordBuilder = new StringBuilder();
+                    i++;
+                }
             }
         }
 
         //"([\"'])(?:(?=(\\\\?))\\2.)*?\\1|([ ])
         for (String word : words) {
-            /* if (word.startsWith("\"")) {
-                int wordStartIndex = supply.indexOf(word);
-                int wordEndIndex = 0;
-
-                char[] string = supply.substring(wordStartIndex).toCharArray();
-                for(int i = 0; i < string.length; i++) {
-                    if(i > 0 && string[i - 1] != '\\' && string[i] == '"') {
-                        wordEndIndex = i;
-                    }
-                }
-
-
-
-                Token stringToken = evaluate(word);
-                tokenList.add(stringToken);
-                System.out.println("String loop value: " + stringToken.getValue());
-                continue;
-            }*/
-
             Token token = evaluate(word);
             if (lastToken != null) {
-                lastToken.setLeftSide(token);
-                token.setRightSide(lastToken);
+                lastToken.setRightSide(token);
+                token.setLeftSide(lastToken);
             }
 
             lastToken = token;

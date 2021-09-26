@@ -1,6 +1,6 @@
 package com.github.interpreter.token.type;
 
-public class IdentifierToken implements Token {
+public class IdentifierToken extends Token {
 
     private String identifier;
 

@@ -13,7 +13,7 @@ public class OperatorExpression implements Expression {
         this.expression = expression;
     }
 
-    public String getExpression() {
+    public String getOperator() {
         return expression;
     }
 

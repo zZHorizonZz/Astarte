@@ -17,11 +17,19 @@ public abstract class Token {
         this.rightSide = rightSide;
     }
 
+    public boolean hasRightSide() {
+        return rightSide != null;
+    }
+
     public Token getLeftSide() {
         return leftSide;
     }
 
     public void setLeftSide(Token leftSide) {
         this.leftSide = leftSide;
+    }
+
+    public boolean hasLeftSide() {
+        return leftSide != null;
     }
 }

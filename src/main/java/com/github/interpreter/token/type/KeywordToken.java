@@ -1,6 +1,6 @@
 package com.github.interpreter.token.type;
 
-public class KeywordToken implements Token {
+public class KeywordToken extends Token {
 
     private String keyword;
 

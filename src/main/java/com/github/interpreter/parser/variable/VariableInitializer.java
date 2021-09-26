@@ -1,11 +1,10 @@
 package com.github.interpreter.parser.variable;
 
 import com.github.interpreter.parser.expression.Expression;
+import com.github.interpreter.parser.expression.OperatorExpression;
 import com.github.interpreter.parser.expression.ReferenceExpression;
 import com.github.interpreter.parser.expression.VariableExpression;
-import com.github.interpreter.token.type.IdentifierToken;
-import com.github.interpreter.token.type.LiteralToken;
-import com.github.interpreter.token.type.Token;
+import com.github.interpreter.token.type.*;
 import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException;
 
 public class VariableInitializer {
@@ -13,17 +12,19 @@ public class VariableInitializer {
     private Expression expression;
 
     public VariableInitializer() {
+
     }
 
     public Expression parse(Token[] tokens) {
-        int tokenIndex = 0;
-        if (tokens.length == 1) {
-            expression = evaluateVariable(tokens[tokenIndex++]);
+        for (Token token : tokens) {
+            System.out.println("Token Type: " + token.getClass().getSimpleName());
+        }
+        if (tokens[0].hasRightSide() && tokens[0].getRightSide() instanceof SeparatorToken) {
+            expression = evaluateVariable(tokens[0]);
             return expression;
         }
 
-        Token token = tokens[tokenIndex++];
-
+        return evaluateOperator(tokens);
     }
 
     private VariableExpression evaluateVariable(Token token) {
@@ -34,5 +35,40 @@ public class VariableInitializer {
         } else {
             throw new UnknownSyntaxException("Variable has been recognized as keyword but there is problem with it's casing.");
         }
+    }
+
+    private Expression evaluateOperator(Token[] tokens) {
+        if (tokens.length < 3) {
+            throw new UnknownSyntaxException("Operator doesn't have enough arguments.");
+        }
+
+        Token currentToken = tokens[0];
+
+        Expression leftSide = evaluateVariable(tokens[0]);
+        Expression rightSide = evaluateVariable(tokens[2]);
+
+        System.out.println("Left side!: " + rightSide != null);
+        while (currentToken.hasRightSide()) {
+            currentToken = currentToken.getRightSide();
+            if (currentToken instanceof OperatorToken) {
+                String name = currentToken.getValue();
+
+                currentToken = currentToken.getRightSide();
+                rightSide = new OperatorExpression(leftSide, evaluateVariable(currentToken), name);
+                System.out.println("Left side@: " + rightSide != null);
+            }
+
+            if (currentToken instanceof SeparatorToken) {
+                if (currentToken.getValue().equalsIgnoreCase(";")) {
+                    this.expression = rightSide;
+                    return expression;
+                }
+            }
+        }
+
+        System.out.println("Left side #: " + rightSide != null);
+
+        this.expression = rightSide;
+        return rightSide;
     }
 }
