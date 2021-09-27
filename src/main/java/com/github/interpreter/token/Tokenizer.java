@@ -4,8 +4,11 @@ import com.github.interpreter.token.type.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class Tokenizer {
+
+    public static final Pattern NUMBER_PATTERN = Pattern.compile("^\\d+(\\.\\d+)?");
 
     private final String supply;
     private final List<Token> tokenList = new LinkedList<>();
@@ -120,7 +123,7 @@ public class Tokenizer {
     private boolean evaluateLiteral(String word) {
         if (word.startsWith("\"") && word.endsWith("\"")) {
             return true;
-        } else if (word.matches("^\\d+(\\.\\d+)?")) {
+        } else if (NUMBER_PATTERN.matcher(word).matches()) {
             return true;
         } else return word.matches("true") || word.matches("false");
     }
