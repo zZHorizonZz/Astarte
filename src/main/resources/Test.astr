@@ -6,7 +6,8 @@ dictionary {
         String testString = "Default String" { get; set; }
 
         Main(String name) {
-
+            string testString = testReturn()[0];
+            int testInt = testReturn()[1];
         }
 
         init(String[] args) :: int {
@@ -14,6 +15,10 @@ dictionary {
         }
 
         testMethod() :: int => return 1;
+
+        testReturn() :: [string, int] {
+            return "test", 5;
+        }
     }
 
     class Test :: Super {
