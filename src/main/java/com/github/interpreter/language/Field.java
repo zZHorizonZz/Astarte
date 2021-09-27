@@ -23,6 +23,7 @@ public class Field {
             return new ArithmeticalOperator(((OperatorExpression) initializer).getOperator()).process((OperatorExpression) initializer);
         }
 
+        System.out.println("");
         return null;
     }
 
