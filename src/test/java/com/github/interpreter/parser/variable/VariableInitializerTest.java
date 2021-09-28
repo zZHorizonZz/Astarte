@@ -32,10 +32,10 @@ class VariableInitializerTest {
 
         Expression expression = initializer.parse(Arrays.copyOfRange(tokenList.toArray(new Token[0]), 3, tokenList.size()));
         Assertions.assertEquals(OperatorExpression.class, expression.getClass());
-        Assertions.assertEquals("+", ((OperatorExpression) expression).getOperator());
-        Assertions.assertEquals(VariableExpression.class, ((OperatorExpression) expression).getLeftSide().getClass());
-        Assertions.assertEquals("5", ((VariableExpression) ((OperatorExpression) expression).getLeftSide()).getValue());
-        Assertions.assertEquals(VariableExpression.class, ((OperatorExpression) expression).getRightSide().getClass());
-        Assertions.assertEquals("5", ((VariableExpression) ((OperatorExpression) expression).getRightSide()).getValue());
+        Assertions.assertEquals("+", ((OperatorExpression) expression).operator());
+        Assertions.assertEquals(VariableExpression.class, ((OperatorExpression) expression).leftSide().getClass());
+        Assertions.assertEquals("5", ((VariableExpression) ((OperatorExpression) expression).leftSide()).getValue());
+        Assertions.assertEquals(VariableExpression.class, ((OperatorExpression) expression).rightSide().getClass());
+        Assertions.assertEquals("5", ((VariableExpression) ((OperatorExpression) expression).rightSide()).getValue());
     }
 }

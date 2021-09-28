@@ -24,7 +24,7 @@ public class VariableInitializer {
         return evaluateOperator(tokens);
     }
 
-    private VariableExpression evaluateVariable(Token token) {
+    private Expression evaluateVariable(Token token) {
         if (token instanceof LiteralToken) {
             return new VariableExpression(token.getValue());
         } else if (token instanceof IdentifierToken) {

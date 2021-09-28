@@ -34,16 +34,16 @@ public record ArithmeticalOperator(String operator) {
         Number leftSide = null;
         Number rightSide = null;
 
-        if (expression.getLeftSide() instanceof OperatorExpression) {
-            leftSide = process((OperatorExpression) expression.getLeftSide());
-        } else if (expression.getLeftSide() instanceof VariableExpression && StringUtils.isNumeric(((VariableExpression) expression.getLeftSide()).getValue())) {
-            leftSide = Number.createNumber(((VariableExpression) expression.getLeftSide()).getValue());
+        if (expression.leftSide() instanceof OperatorExpression) {
+            leftSide = process((OperatorExpression) expression.leftSide());
+        } else if (expression.leftSide() instanceof VariableExpression && StringUtils.isNumeric(((VariableExpression) expression.leftSide()).getValue())) {
+            leftSide = Number.createNumber(((VariableExpression) expression.leftSide()).getValue());
         }
 
-        if (expression.getRightSide() instanceof OperatorExpression) {
-            rightSide = process((OperatorExpression) expression.getRightSide());
-        } else if (expression.getRightSide() instanceof VariableExpression && StringUtils.isNumeric(((VariableExpression) expression.getRightSide()).getValue())) {
-            rightSide = Number.createNumber(((VariableExpression) expression.getRightSide()).getValue());
+        if (expression.rightSide() instanceof OperatorExpression) {
+            rightSide = process((OperatorExpression) expression.rightSide());
+        } else if (expression.rightSide() instanceof VariableExpression && StringUtils.isNumeric(((VariableExpression) expression.rightSide()).getValue())) {
+            rightSide = Number.createNumber(((VariableExpression) expression.rightSide()).getValue());
         }
 
         return apply(rightSide, leftSide);

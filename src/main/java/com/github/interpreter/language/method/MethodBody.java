@@ -1,4 +1,4 @@
 package com.github.interpreter.language.method;
 
-public class MethodContainer {
+public class MethodBody {
 }

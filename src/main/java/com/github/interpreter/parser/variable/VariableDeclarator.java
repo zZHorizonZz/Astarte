@@ -1,6 +1,7 @@
 package com.github.interpreter.parser.variable;
 
-import com.github.interpreter.language.Field;
+import com.github.interpreter.language.logic.FieldBlock;
+import com.github.interpreter.language.method.MethodBody;
 import com.github.interpreter.parser.Declarator;
 import com.github.interpreter.parser.type.VariableTypeDeclarator;
 import com.github.interpreter.token.type.*;
@@ -68,11 +69,11 @@ public class VariableDeclarator implements Declarator {
         return this;
     }
 
-    public Field buildField() {
-        Field field = new Field(name);
-        field.setInitializer(initializer.getExpression());
-        //field.setReturnType(type.getType());
-        return field;
+    public FieldBlock buildField() {
+        FieldBlock fieldBlock = new FieldBlock(new MethodBody(), name);
+        fieldBlock.setInitializer(initializer.getExpression());
+        //fieldBlock.setReturnType(type.getType());
+        return fieldBlock;
     }
 
     public String getName() {

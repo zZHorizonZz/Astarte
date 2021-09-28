@@ -1,30 +1,39 @@
-package com.github.interpreter.language;
+package com.github.interpreter.language.logic;
 
+import com.github.interpreter.language.Object;
+import com.github.interpreter.language.method.MethodBody;
 import com.github.interpreter.language.operator.ArithmeticalOperator;
 import com.github.interpreter.parser.expression.Expression;
 import com.github.interpreter.parser.expression.OperatorExpression;
+import com.github.interpreter.parser.expression.ReferenceExpression;
 import com.github.interpreter.token.type.TokenType;
 
-public class Field {
+public class FieldBlock implements Block {
+
+    private final MethodBody methodBody;
 
     private String name;
     private TokenType returnType;
 
     private Expression initializer;
 
-    public Field(String name) {
+    public FieldBlock(MethodBody body, String name) {
+        this.methodBody = body;
         this.name = name;
     }
 
-    //TODO: Finish object
-
     public Object run() {
         if (initializer instanceof OperatorExpression) {
-            return new ArithmeticalOperator(((OperatorExpression) initializer).getOperator()).process((OperatorExpression) initializer);
+            return new ArithmeticalOperator(((OperatorExpression) initializer).operator()).process((OperatorExpression) initializer);
+        } else if (initializer instanceof ReferenceExpression) {
+
         }
 
-        System.out.println("");
         return null;
+    }
+
+    public MethodBody getMethodBody() {
+        return methodBody;
     }
 
     public String getName() {

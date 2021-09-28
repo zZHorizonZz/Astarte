@@ -12,7 +12,7 @@ public class Method {
     private LiteralToken returnType;
     private LiteralToken[] arguments;
 
-    private MethodContainer container;
+    private MethodBody container;
 
     public Method(Token... tokens) {
 
