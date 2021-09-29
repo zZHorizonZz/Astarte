@@ -21,7 +21,7 @@ public class MethodDeclarator implements Declarator {
     private MethodBlockDeclarator blockDeclarator;
 
     @Override
-    public Declarator parse(Token[] tokens) {
+    public Object parse(Token[] tokens) {
         Token identifier = tokens[0];
 
         if (!(identifier instanceof IdentifierToken)) {

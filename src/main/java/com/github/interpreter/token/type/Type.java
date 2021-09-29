@@ -12,7 +12,8 @@ public enum Type {
     FLOAT("float"),
     DOUBLE("double"),
     BOOLEAN("boolean"),
-    STRING("string");
+    STRING("string"),
+    CLASS("class");
 
     private final String type;
 

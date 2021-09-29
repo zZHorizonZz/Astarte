@@ -1,9 +1,6 @@
 package com.github.interpreter.parser.variable;
 
-import com.github.interpreter.parser.expression.Expression;
-import com.github.interpreter.parser.expression.OperatorExpression;
-import com.github.interpreter.parser.expression.ReferenceExpression;
-import com.github.interpreter.parser.expression.VariableExpression;
+import com.github.interpreter.parser.expression.*;
 import com.github.interpreter.token.type.*;
 import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException;
 

@@ -36,14 +36,14 @@ public record ArithmeticalOperator(String operator) {
 
         if (expression.leftSide() instanceof OperatorExpression) {
             leftSide = process((OperatorExpression) expression.leftSide());
-        } else if (expression.leftSide() instanceof VariableExpression && StringUtils.isNumeric(((VariableExpression) expression.leftSide()).getValue())) {
-            leftSide = Number.createNumber(((VariableExpression) expression.leftSide()).getValue());
+        } else if (expression.leftSide() instanceof VariableExpression && StringUtils.isNumeric(((VariableExpression) expression.leftSide()).value())) {
+            leftSide = Number.createNumber(((VariableExpression) expression.leftSide()).value());
         }
 
         if (expression.rightSide() instanceof OperatorExpression) {
             rightSide = process((OperatorExpression) expression.rightSide());
-        } else if (expression.rightSide() instanceof VariableExpression && StringUtils.isNumeric(((VariableExpression) expression.rightSide()).getValue())) {
-            rightSide = Number.createNumber(((VariableExpression) expression.rightSide()).getValue());
+        } else if (expression.rightSide() instanceof VariableExpression && StringUtils.isNumeric(((VariableExpression) expression.rightSide()).value())) {
+            rightSide = Number.createNumber(((VariableExpression) expression.rightSide()).value());
         }
 
         return apply(rightSide, leftSide);

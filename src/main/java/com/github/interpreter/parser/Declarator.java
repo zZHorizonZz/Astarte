@@ -2,7 +2,7 @@ package com.github.interpreter.parser;
 
 import com.github.interpreter.token.type.Token;
 
-public interface Declarator {
+public interface Declarator<T> {
 
-    Declarator parse(Token[] tokens);
+    T parse(Token[] tokens);
 }

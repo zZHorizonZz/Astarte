@@ -7,7 +7,7 @@ import com.github.interpreter.token.type.Type;
 import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException;
 import org.apache.commons.lang3.StringUtils;
 
-public class VariablePrefixDeclarator implements Declarator {
+public class VariablePrefixDeclarator implements Declarator<VariablePrefixDeclarator> {
 
     private String name;
 
@@ -18,7 +18,7 @@ public class VariablePrefixDeclarator implements Declarator {
     }
 
     @Override
-    public Declarator parse(Token[] tokens) {
+    public VariablePrefixDeclarator parse(Token[] tokens) {
         if (tokens == null || tokens.length != 2) {
             throw new UnknownSyntaxException("Variable declarator can not parse less or more than 1 types.");
         }
@@ -66,11 +66,11 @@ public class VariablePrefixDeclarator implements Declarator {
         return customType;
     }
 
-    public Type getType() {
+    public Type getGenericType() {
         return genericType;
     }
 
-    public boolean getGenericType() {
+    public boolean isGenericType() {
         return genericType != null;
     }
 

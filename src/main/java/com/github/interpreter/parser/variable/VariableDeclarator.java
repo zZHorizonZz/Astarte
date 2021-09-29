@@ -1,8 +1,7 @@
 package com.github.interpreter.parser.variable;
 
-import com.github.interpreter.language.logic.FieldBlock;
-import com.github.interpreter.language.method.MethodBody;
 import com.github.interpreter.parser.Declarator;
+import com.github.interpreter.parser.expression.FieldExpression;
 import com.github.interpreter.parser.type.VariablePrefixDeclarator;
 import com.github.interpreter.token.type.KeyWord;
 import com.github.interpreter.token.type.KeywordToken;
@@ -12,7 +11,7 @@ import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException
 
 import java.util.Arrays;
 
-public class VariableDeclarator implements Declarator {
+public class VariableDeclarator implements Declarator<FieldExpression> {
 
     private VariablePrefixDeclarator prefixDeclarator;
     private boolean declaredFinal;
@@ -20,7 +19,7 @@ public class VariableDeclarator implements Declarator {
     private VariableInitializer initializer;
 
     @Override
-    public Declarator parse(Token[] tokens) {
+    public FieldExpression parse(Token[] tokens) {
         if (tokens == null || tokens.length < 1) {
             throw new IllegalArgumentException("Tokens passed to declarator are null or their are empty!");
         }
@@ -61,14 +60,14 @@ public class VariableDeclarator implements Declarator {
             throw new UnknownSyntaxException("Something went wrong when initializing variable.");
         }
 
-        return this;
-    }
+        FieldExpression expression = new FieldExpression(prefixDeclarator.getName());
+        expression.setCustomType(expression.getCustomType());
+        expression.setGenericType(expression.getGenericType());
 
-    public FieldBlock buildField() {
-        FieldBlock fieldBlock = new FieldBlock(new MethodBody(), getName());
-        fieldBlock.setInitializer(initializer.getExpression());
-        //fieldBlock.setReturnType(prefixDeclarator.getPrefixDeclarator());
-        return fieldBlock;
+        expression.setInitializer(initializer.getExpression());
+        expression.setDeclaredFinal(declaredFinal);
+
+        return expression;
     }
 
     public String getName() {

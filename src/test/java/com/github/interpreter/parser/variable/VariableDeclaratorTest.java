@@ -21,8 +21,8 @@ class VariableDeclaratorTest {
         Tokenizer tokenizer = new Tokenizer("int field = 5 + 5;");
         List<Token> tokenList = tokenizer.tokenize();
 
-        variableDeclarator = (VariableDeclarator) variableDeclarator.parse(tokenList.toArray(new Token[0]));
-        Assertions.assertEquals(Type.INTEGER, variableDeclarator.getPrefixDeclarator().getType());
+        variableDeclarator.parse(tokenList.toArray(new Token[0]));
+        Assertions.assertEquals(Type.INTEGER, variableDeclarator.getPrefixDeclarator().getGenericType());
         Assertions.assertEquals("field", variableDeclarator.getName());
         Assertions.assertEquals(OperatorExpression.class, variableDeclarator.getInitializer().getExpression().getClass());
     }
@@ -33,9 +33,9 @@ class VariableDeclaratorTest {
         Tokenizer tokenizer = new Tokenizer("int fieldBlock = 5 + 5;");
         List<Token> tokenList = tokenizer.tokenize();
 
-        variableDeclarator = (VariableDeclarator) variableDeclarator.parse(tokenList.toArray(new Token[0]));
+        variableDeclarator.parse(tokenList.toArray(new Token[0]));
 
-        FieldBlock fieldBlock = variableDeclarator.buildField();
+        FieldBlock fieldBlock = null;
         Object number = fieldBlock.run();
 
         Assertions.assertEquals(Integer.class, number.getClass());
@@ -52,9 +52,9 @@ class VariableDeclaratorTest {
         Tokenizer tokenizer = new Tokenizer("int fieldBlock = " + leftSide + " + " + rightSide + ";");
         List<Token> tokenList = tokenizer.tokenize();
 
-        variableDeclarator = (VariableDeclarator) variableDeclarator.parse(tokenList.toArray(new Token[0]));
+        variableDeclarator.parse(tokenList.toArray(new Token[0]));
 
-        FieldBlock fieldBlock = variableDeclarator.buildField();
+        FieldBlock fieldBlock = null;
         Object number = fieldBlock.run();
 
         Assertions.assertEquals(Integer.class, number.getClass());

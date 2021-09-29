@@ -27,7 +27,7 @@ class MethodDeclaratorTest {
 
         Assertions.assertEquals("parse", declarator.getName());
         Assertions.assertEquals(1, declarator.getArguments().length);
-        Assertions.assertEquals(Type.STRING, declarator.getArguments()[0].getType());
+        Assertions.assertEquals(Type.STRING, declarator.getArguments()[0].getGenericType());
     }
 
     @Test
@@ -39,7 +39,7 @@ class MethodDeclaratorTest {
 
         Assertions.assertEquals("parse", declarator.getName());
         Assertions.assertEquals(2, declarator.getArguments().length);
-        Assertions.assertEquals(Type.STRING, declarator.getArguments()[0].getType());
-        Assertions.assertEquals(Type.INTEGER, declarator.getArguments()[1].getType());
+        Assertions.assertEquals(Type.STRING, declarator.getArguments()[0].getGenericType());
+        Assertions.assertEquals(Type.INTEGER, declarator.getArguments()[1].getGenericType());
     }
 }
