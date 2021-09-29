@@ -22,7 +22,7 @@ class VariableDeclaratorTest {
         List<Token> tokenList = tokenizer.tokenize();
 
         variableDeclarator = (VariableDeclarator) variableDeclarator.parse(tokenList.toArray(new Token[0]));
-        Assertions.assertEquals(Type.INTEGER, variableDeclarator.getType().getType());
+        Assertions.assertEquals(Type.INTEGER, variableDeclarator.getPrefixDeclarator().getType());
         Assertions.assertEquals("field", variableDeclarator.getName());
         Assertions.assertEquals(OperatorExpression.class, variableDeclarator.getInitializer().getExpression().getClass());
     }

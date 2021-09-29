@@ -1,33 +1,32 @@
 package com.github.interpreter.parser.type;
 
 import com.github.interpreter.parser.Declarator;
-import com.github.interpreter.parser.variable.VariableDeclarator;
+import com.github.interpreter.token.type.IdentifierToken;
 import com.github.interpreter.token.type.Token;
 import com.github.interpreter.token.type.Type;
 import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException;
 import org.apache.commons.lang3.StringUtils;
 
-public class VariableTypeDeclarator implements Declarator {
+public class VariablePrefixDeclarator implements Declarator {
 
-    private final VariableDeclarator declarator;
     private String name;
 
-    private Type type;
+    private String customType;
+    private Type genericType;
 
-    public VariableTypeDeclarator(VariableDeclarator declarator) {
-        this.declarator = declarator;
+    public VariablePrefixDeclarator() {
     }
 
     @Override
     public Declarator parse(Token[] tokens) {
-        if (tokens == null || tokens.length != 1) {
+        if (tokens == null || tokens.length != 2) {
             throw new UnknownSyntaxException("Variable declarator can not parse less or more than 1 types.");
         }
 
         Token token = tokens[0];
         switch (token.getTokenType()) {
             case IDENTIFIER -> {
-                this.name = token.getValue();
+                this.customType = token.getValue();
             }
 
             case TYPE -> {
@@ -37,34 +36,45 @@ public class VariableTypeDeclarator implements Declarator {
 
                 Type type = Type.getByName(token.getValue());
                 if (type != null) {
-                    this.type = type;
-                    this.name = token.getValue();
+                    this.genericType = type;
+                    this.customType = token.getValue();
                 } else {
                     throw new UnknownSyntaxException("Variable has been recognized as keyword but is not recognized as allowed variable.");
                 }
             }
         }
 
-        return this;
-    }
+        if (!token.hasRightSide()) {
+            throw new UnknownSyntaxException("Name of variable can not be found.");
+        }
 
-    public VariableDeclarator getDeclarator() {
-        return declarator;
+        Token name = token.getRightSide();
+        if (!(name instanceof IdentifierToken)) {
+            throw new UnknownSyntaxException("Name of variable can not be found.");
+        }
+
+        this.name = name.getValue();
+
+        return this;
     }
 
     public String getName() {
         return name;
     }
 
-    public Type getType() {
-        return type;
+    public String getCustomType() {
+        return customType;
     }
 
-    public boolean isType() {
-        return type != null;
+    public Type getType() {
+        return genericType;
+    }
+
+    public boolean getGenericType() {
+        return genericType != null;
     }
 
     public boolean isIdentifier() {
-        return type == null;
+        return genericType == null;
     }
 }

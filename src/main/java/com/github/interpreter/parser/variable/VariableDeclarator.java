@@ -3,16 +3,18 @@ package com.github.interpreter.parser.variable;
 import com.github.interpreter.language.logic.FieldBlock;
 import com.github.interpreter.language.method.MethodBody;
 import com.github.interpreter.parser.Declarator;
-import com.github.interpreter.parser.type.VariableTypeDeclarator;
-import com.github.interpreter.token.type.*;
+import com.github.interpreter.parser.type.VariablePrefixDeclarator;
+import com.github.interpreter.token.type.KeyWord;
+import com.github.interpreter.token.type.KeywordToken;
+import com.github.interpreter.token.type.OperatorToken;
+import com.github.interpreter.token.type.Token;
 import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException;
 
 import java.util.Arrays;
 
 public class VariableDeclarator implements Declarator {
 
-    private String name;
-    private VariableTypeDeclarator type;
+    private VariablePrefixDeclarator prefixDeclarator;
     private boolean declaredFinal;
 
     private VariableInitializer initializer;
@@ -29,7 +31,7 @@ public class VariableDeclarator implements Declarator {
 
         switch (initializerToken.getTokenType()) {
             case IDENTIFIER, TYPE -> {
-                type = (VariableTypeDeclarator) new VariableTypeDeclarator(this).parse(new Token[]{initializerToken});
+                prefixDeclarator = (VariablePrefixDeclarator) new VariablePrefixDeclarator().parse(new Token[]{initializerToken, tokens[tokenIndex++]});
             }
 
             case KEYWORD -> {
@@ -37,18 +39,11 @@ public class VariableDeclarator implements Declarator {
                 if (keyWord != null && keyWord.equals(KeyWord.FINAL)) {
                     declaredFinal = true;
                     initializerToken = tokens[tokenIndex++];
-                    type = (VariableTypeDeclarator) new VariableTypeDeclarator(this).parse(new Token[]{initializerToken});
+                    prefixDeclarator = (VariablePrefixDeclarator) new VariablePrefixDeclarator().parse(new Token[]{initializerToken, tokens[tokenIndex++]});
                 } else {
                     throw new UnknownSyntaxException("Something went wrong when initializing variable.");
                 }
             }
-        }
-
-        Token nameToken = tokens[tokenIndex++];
-        if (nameToken instanceof IdentifierToken) {
-            name = nameToken.getValue();
-        } else {
-            throw new UnknownSyntaxException("Something went wrong when initializing variable.");
         }
 
         Token equalsToken = tokens[tokenIndex++];
@@ -70,18 +65,18 @@ public class VariableDeclarator implements Declarator {
     }
 
     public FieldBlock buildField() {
-        FieldBlock fieldBlock = new FieldBlock(new MethodBody(), name);
+        FieldBlock fieldBlock = new FieldBlock(new MethodBody(), getName());
         fieldBlock.setInitializer(initializer.getExpression());
-        //fieldBlock.setReturnType(type.getType());
+        //fieldBlock.setReturnType(prefixDeclarator.getPrefixDeclarator());
         return fieldBlock;
     }
 
     public String getName() {
-        return name;
+        return prefixDeclarator.getName();
     }
 
-    public VariableTypeDeclarator getType() {
-        return type;
+    public VariablePrefixDeclarator getPrefixDeclarator() {
+        return prefixDeclarator;
     }
 
     public boolean isDeclaredFinal() {
