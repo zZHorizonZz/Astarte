@@ -31,17 +31,14 @@ public class MethodBlockDeclarator implements Declarator<MethodBlockDeclarator> 
 
             if (token instanceof TypeToken || token instanceof IdentifierToken) {
                 Token[] fieldTokens = UtilToken.getBlock(Arrays.copyOfRange(tokens, i, tokens.length), null, ";");
-                System.out.println("Index: " + i);
-                System.out.println("Field tokens size: " + fieldTokens.length);
-                for (Token fieldToken : fieldTokens) {
-                    System.out.println("Field Token: " + fieldToken.getValue());
-                }
                 VariableDeclarator fieldDeclarator = new VariableDeclarator();
                 Expression field = fieldDeclarator.parse(fieldTokens);
 
                 if (field != null) {
                     body.add(field);
                 }
+
+                i += fieldTokens.length;
             }
         }
 

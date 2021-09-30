@@ -30,7 +30,7 @@ public class VariableDeclarator implements Declarator<FieldExpression> {
 
         switch (initializerToken.getTokenType()) {
             case IDENTIFIER, TYPE -> {
-                prefixDeclarator = (VariablePrefixDeclarator) new VariablePrefixDeclarator().parse(new Token[]{initializerToken, tokens[tokenIndex++]});
+                prefixDeclarator = new VariablePrefixDeclarator().parse(new Token[]{initializerToken, tokens[tokenIndex++]});
             }
 
             case KEYWORD -> {
@@ -38,7 +38,7 @@ public class VariableDeclarator implements Declarator<FieldExpression> {
                 if (keyWord != null && keyWord.equals(KeyWord.FINAL)) {
                     declaredFinal = true;
                     initializerToken = tokens[tokenIndex++];
-                    prefixDeclarator = (VariablePrefixDeclarator) new VariablePrefixDeclarator().parse(new Token[]{initializerToken, tokens[tokenIndex++]});
+                    prefixDeclarator = new VariablePrefixDeclarator().parse(new Token[]{initializerToken, tokens[tokenIndex++]});
                 } else {
                     throw new UnknownSyntaxException("Something went wrong when initializing variable.");
                 }

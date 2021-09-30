@@ -12,7 +12,7 @@ import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException
 import java.util.LinkedList;
 import java.util.List;
 
-public class MethodDeclarator implements Declarator {
+public class MethodDeclarator implements Declarator<MethodDeclarator> {
 
     private String name;
     private VariablePrefixDeclarator[] returnType;
@@ -21,7 +21,7 @@ public class MethodDeclarator implements Declarator {
     private MethodBlockDeclarator blockDeclarator;
 
     @Override
-    public Object parse(Token[] tokens) {
+    public MethodDeclarator parse(Token[] tokens) {
         Token identifier = tokens[0];
 
         if (!(identifier instanceof IdentifierToken)) {

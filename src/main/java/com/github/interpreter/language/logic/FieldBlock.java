@@ -1,7 +1,7 @@
 package com.github.interpreter.language.logic;
 
 import com.github.interpreter.language.Object;
-import com.github.interpreter.language.method.MethodBody;
+import com.github.interpreter.language.method.MethodBlock;
 import com.github.interpreter.language.operator.ArithmeticalOperator;
 import com.github.interpreter.parser.expression.Expression;
 import com.github.interpreter.parser.expression.OperatorExpression;
@@ -10,15 +10,15 @@ import com.github.interpreter.token.type.TokenType;
 
 public class FieldBlock implements Block {
 
-    private final MethodBody methodBody;
+    private final MethodBlock methodBlock;
 
     private String name;
     private TokenType returnType;
 
     private Expression initializer;
 
-    public FieldBlock(MethodBody body, String name) {
-        this.methodBody = body;
+    public FieldBlock(MethodBlock body, String name) {
+        this.methodBlock = body;
         this.name = name;
     }
 
@@ -32,8 +32,8 @@ public class FieldBlock implements Block {
         return null;
     }
 
-    public MethodBody getMethodBody() {
-        return methodBody;
+    public MethodBlock getMethodBody() {
+        return methodBlock;
     }
 
     public String getName() {
