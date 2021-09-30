@@ -1,8 +1,9 @@
 package com.github.interpreter.parser.variable;
 
-import com.github.interpreter.language.logic.FieldBlock;
 import com.github.interpreter.language.Object;
+import com.github.interpreter.language.logic.FieldBlock;
 import com.github.interpreter.language.number.Integer;
+import com.github.interpreter.parser.expression.FieldExpression;
 import com.github.interpreter.parser.expression.OperatorExpression;
 import com.github.interpreter.token.Tokenizer;
 import com.github.interpreter.token.type.Token;
@@ -33,10 +34,13 @@ class VariableDeclaratorTest {
         Tokenizer tokenizer = new Tokenizer("int fieldBlock = 5 + 5;");
         List<Token> tokenList = tokenizer.tokenize();
 
-        variableDeclarator.parse(tokenList.toArray(new Token[0]));
+        FieldExpression fieldExpression = variableDeclarator.parse(tokenList.toArray(new Token[0]));
 
-        FieldBlock fieldBlock = null;
-        Object number = fieldBlock.run();
+        FieldBlock fieldBlock = new FieldBlock(fieldExpression);
+        fieldBlock.initialize();
+
+        Assertions.assertTrue(fieldBlock.isInitialized());
+        Object number = fieldBlock.getValue();
 
         Assertions.assertEquals(Integer.class, number.getClass());
         Assertions.assertEquals(10, ((Integer) number).getValue());
@@ -52,10 +56,13 @@ class VariableDeclaratorTest {
         Tokenizer tokenizer = new Tokenizer("int fieldBlock = " + leftSide + " + " + rightSide + ";");
         List<Token> tokenList = tokenizer.tokenize();
 
-        variableDeclarator.parse(tokenList.toArray(new Token[0]));
+        FieldExpression fieldExpression = variableDeclarator.parse(tokenList.toArray(new Token[0]));
 
-        FieldBlock fieldBlock = null;
-        Object number = fieldBlock.run();
+        FieldBlock fieldBlock = new FieldBlock(fieldExpression);
+        fieldBlock.initialize();
+
+        Assertions.assertTrue(fieldBlock.isInitialized());
+        Object number = fieldBlock.getValue();
 
         Assertions.assertEquals(Integer.class, number.getClass());
         Assertions.assertEquals(leftSide + rightSide, ((Integer) number).getValue());

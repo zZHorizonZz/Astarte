@@ -1,39 +1,47 @@
 package com.github.interpreter.language.logic;
 
 import com.github.interpreter.language.Object;
-import com.github.interpreter.language.method.MethodBlock;
 import com.github.interpreter.language.operator.ArithmeticalOperator;
 import com.github.interpreter.parser.expression.Expression;
+import com.github.interpreter.parser.expression.FieldExpression;
 import com.github.interpreter.parser.expression.OperatorExpression;
 import com.github.interpreter.parser.expression.ReferenceExpression;
-import com.github.interpreter.token.type.TokenType;
+import com.github.interpreter.token.type.Type;
 
 public class FieldBlock implements Block {
 
-    private final MethodBlock methodBlock;
-
     private String name;
-    private TokenType returnType;
+    private final Type genericType;
+    private final String customType;
 
+    private final boolean declaredFinal;
     private Expression initializer;
 
-    public FieldBlock(MethodBlock body, String name) {
-        this.methodBlock = body;
-        this.name = name;
+    private Object value;
+
+    public FieldBlock(FieldExpression expression) {
+        this.name = expression.getName();
+        this.genericType = expression.getGenericType();
+        this.customType = expression.getCustomType();
+        this.declaredFinal = expression.isDeclaredFinal();
+
+        this.initializer = expression.getInitializer();
     }
 
-    public Object run() {
+    public void initialize() {
         if (initializer instanceof OperatorExpression) {
-            return new ArithmeticalOperator(((OperatorExpression) initializer).operator()).process((OperatorExpression) initializer);
+            value = new ArithmeticalOperator(((OperatorExpression) initializer).operator()).process((OperatorExpression) initializer);
         } else if (initializer instanceof ReferenceExpression) {
 
         }
-
-        return null;
     }
 
-    public MethodBlock getMethodBody() {
-        return methodBlock;
+    public Object getValue() {
+        return value;
+    }
+
+    public boolean isInitialized() {
+        return value != null;
     }
 
     public String getName() {
@@ -44,12 +52,16 @@ public class FieldBlock implements Block {
         this.name = name;
     }
 
-    public TokenType getReturnType() {
-        return returnType;
+    public Type getGenericType() {
+        return genericType;
     }
 
-    public void setReturnType(TokenType returnType) {
-        this.returnType = returnType;
+    public String getCustomType() {
+        return customType;
+    }
+
+    public boolean isDeclaredFinal() {
+        return declaredFinal;
     }
 
     public Expression getInitializer() {
