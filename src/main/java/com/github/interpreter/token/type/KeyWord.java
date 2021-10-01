@@ -8,8 +8,7 @@ public enum KeyWord {
     IF("if"),
     ELSE("else"),
     WHILE("while"),
-    RETURN("return"),
-    FINAL("final");
+    RETURN("return");
 
     private final String keyword;
 

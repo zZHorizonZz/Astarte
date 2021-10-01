@@ -1,31 +1,45 @@
 package com.github.interpreter.language.method;
 
+import com.github.interpreter.language.Constructor;
+import com.github.interpreter.language.logic.FieldBlock;
+import com.github.interpreter.parser.expression.FieldExpression;
 import com.github.interpreter.parser.method.MethodDeclarator;
-import com.github.interpreter.token.type.LiteralToken;
-import com.github.interpreter.token.type.Token;
+import com.github.interpreter.token.type.Type;
 
-import java.util.List;
+import java.util.Arrays;
 
-public class Method {
+public class Method implements Constructor<MethodDeclarator> {
 
     private String name;
 
-    private LiteralToken returnType;
-    private LiteralToken[] arguments;
+    private Type returnType;
+    private FieldBlock[] arguments;
 
     private MethodBlock methodBlock;
 
-    public Method(Token... tokens) {
-
-    }
-
-    public Method(List<Token> tokenList) {
-        java.lang.reflect.Method method;
-    }
-
+    @Override
     public void construct(MethodDeclarator declarator) {
         name = declarator.getName();
+        arguments = Arrays.stream(declarator.getArguments()).
+                map(variableDeclarator -> new FieldBlock(new FieldExpression(variableDeclarator))).toArray(FieldBlock[]::new);
 
+        methodBlock = new MethodBlock();
+        methodBlock.construct(declarator.getBlockDeclarator());
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Type getReturnType() {
+        return returnType;
+    }
+
+    public FieldBlock[] getArguments() {
+        return arguments;
+    }
+
+    public MethodBlock getMethodBlock() {
+        return methodBlock;
+    }
 }

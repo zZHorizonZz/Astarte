@@ -1,5 +1,6 @@
 package com.github.interpreter.language.logic;
 
+import com.github.interpreter.language.Constructor;
 import com.github.interpreter.language.Object;
 import com.github.interpreter.language.number.Byte;
 import com.github.interpreter.language.number.Double;
@@ -11,27 +12,39 @@ import com.github.interpreter.language.operator.ArithmeticalOperator;
 import com.github.interpreter.parser.expression.*;
 import com.github.interpreter.token.type.Type;
 
-public class FieldBlock implements Block {
+public class FieldBlock implements Block, Constructor<FieldExpression> {
 
     private String name;
-    private final Type genericType;
-    private final String customType;
+    private Type genericType;
+    private String customType;
 
-    private final boolean declaredFinal;
+    private boolean declaredFinal;
     private Expression initializer;
 
     private Object value;
 
-    public FieldBlock(FieldExpression expression) {
-        this.name = expression.getName();
-        this.genericType = expression.getGenericType();
-        this.customType = expression.getCustomType();
-        this.declaredFinal = expression.isDeclaredFinal();
+    public FieldBlock() {
+    }
 
-        this.initializer = expression.getInitializer();
+    public FieldBlock(FieldExpression expression) {
+        construct(expression);
+    }
+
+    @Override
+    public void construct(FieldExpression resource) {
+        this.name = resource.getName();
+        this.genericType = resource.getGenericType();
+        this.customType = resource.getCustomType();
+        this.declaredFinal = resource.isDeclaredFinal();
+
+        this.initializer = resource.getInitializer();
     }
 
     public void initialize() {
+        if (initializer == null) {
+            return;
+        }
+
         if (initializer instanceof OperatorExpression) {
             value = new ArithmeticalOperator(((OperatorExpression) initializer).operator()).process((OperatorExpression) initializer);
         } else if (initializer instanceof ReferenceExpression) {

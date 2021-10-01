@@ -1,5 +1,6 @@
 package com.github.interpreter.parser.expression;
 
+import com.github.interpreter.parser.type.VariablePrefixDeclarator;
 import com.github.interpreter.token.type.Type;
 
 public class FieldExpression implements Expression {
@@ -11,6 +12,13 @@ public class FieldExpression implements Expression {
     private boolean declaredFinal;
 
     private Expression initializer;
+
+    public FieldExpression(VariablePrefixDeclarator declarator) {
+        name = declarator.getName();
+
+        genericType = declarator.getGenericType();
+        customType = declarator.getCustomType();
+    }
 
     public FieldExpression(String name) {
         this.name = name;

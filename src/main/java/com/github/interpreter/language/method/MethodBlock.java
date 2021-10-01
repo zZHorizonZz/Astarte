@@ -1,5 +1,6 @@
 package com.github.interpreter.language.method;
 
+import com.github.interpreter.language.Constructor;
 import com.github.interpreter.language.logic.Block;
 import com.github.interpreter.language.logic.FieldBlock;
 import com.github.interpreter.parser.expression.Expression;
@@ -10,10 +11,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 //TODO Add something like block identifier.
-public class MethodBlock {
+public class MethodBlock implements Constructor<MethodBlockDeclarator> {
 
     private final List<Block> blockList = new LinkedList<>();
 
+    @Override
     public void construct(MethodBlockDeclarator declarator) {
         if (declarator.getBody() == null) {
             return;
