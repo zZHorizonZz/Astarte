@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
-public enum Type {
+public enum GenericType {
     BYTE("byte"),
     SHORT("short"),
     INTEGER("int"),
@@ -17,7 +17,7 @@ public enum Type {
 
     private final String type;
 
-    Type(String type) {
+    GenericType(String type) {
         this.type = type;
     }
 
@@ -26,7 +26,7 @@ public enum Type {
     }
 
     @Nullable
-    public static Type getByName(String value) {
+    public static GenericType getByName(String value) {
         return Arrays.stream(values()).filter(type -> type.getType().equals(value)).findFirst().orElse(null);
     }
 }

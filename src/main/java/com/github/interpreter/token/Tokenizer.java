@@ -1,6 +1,8 @@
 package com.github.interpreter.token;
 
-import com.github.interpreter.token.type.*;
+
+import com.github.interpreter.token.token.*;
+import com.github.interpreter.token.type.TokenType;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -48,8 +50,8 @@ public class Tokenizer {
                 }
 
                 wordBuilder.append(wordsChars[i]);
-                for (TokenType type : TokenType.getDeterminedTokens()) {
-                    for (String keyword : type.getKeywords()) {
+                for (TokenType genericType : TokenType.getDeterminedTokens()) {
+                    for (String keyword : genericType.getKeywords()) {
                         String word = wordBuilder.toString();
 
                         if (word.equals(keyword)) {
@@ -97,9 +99,9 @@ public class Tokenizer {
             return new LiteralToken(word);
         }
 
-        TokenType type = TokenType.detectType(word);
+        TokenType genericType = TokenType.detectType(word);
 
-        switch (type) {
+        switch (genericType) {
             case KEYWORD -> {
                 return new KeywordToken(word);
             }

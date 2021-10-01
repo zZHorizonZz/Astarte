@@ -4,7 +4,7 @@ import com.github.interpreter.language.logic.FieldBlock;
 import com.github.interpreter.language.number.Integer;
 import com.github.interpreter.parser.method.MethodBlockDeclarator;
 import com.github.interpreter.token.Tokenizer;
-import com.github.interpreter.token.type.Token;
+import com.github.interpreter.token.token.Token;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

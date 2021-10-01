@@ -1,6 +1,6 @@
 package com.github.interpreter.common.language;
 
-import com.github.interpreter.token.type.Token;
+import com.github.interpreter.token.token.Token;
 
 import java.util.Arrays;
 

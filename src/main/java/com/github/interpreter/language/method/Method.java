@@ -4,7 +4,7 @@ import com.github.interpreter.language.Constructor;
 import com.github.interpreter.language.logic.FieldBlock;
 import com.github.interpreter.parser.expression.FieldExpression;
 import com.github.interpreter.parser.method.MethodDeclarator;
-import com.github.interpreter.token.type.Type;
+import com.github.interpreter.token.type.GenericType;
 
 import java.util.Arrays;
 
@@ -12,7 +12,7 @@ public class Method implements Constructor<MethodDeclarator> {
 
     private String name;
 
-    private Type returnType;
+    private GenericType returnGenericType;
     private FieldBlock[] arguments;
 
     private MethodBlock methodBlock;
@@ -31,8 +31,8 @@ public class Method implements Constructor<MethodDeclarator> {
         return name;
     }
 
-    public Type getReturnType() {
-        return returnType;
+    public GenericType getReturnType() {
+        return returnGenericType;
     }
 
     public FieldBlock[] getArguments() {

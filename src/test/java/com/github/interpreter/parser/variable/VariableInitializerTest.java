@@ -4,7 +4,7 @@ import com.github.interpreter.parser.expression.Expression;
 import com.github.interpreter.parser.expression.OperatorExpression;
 import com.github.interpreter.parser.expression.VariableExpression;
 import com.github.interpreter.token.Tokenizer;
-import com.github.interpreter.token.type.Token;
+import com.github.interpreter.token.token.Token;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

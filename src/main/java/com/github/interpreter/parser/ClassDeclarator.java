@@ -1,7 +1,7 @@
 package com.github.interpreter.parser;
 
 import com.github.interpreter.language.Class;
-import com.github.interpreter.token.type.Token;
+import com.github.interpreter.token.token.Token;
 
 public class ClassDeclarator implements Declarator<Class> {
 

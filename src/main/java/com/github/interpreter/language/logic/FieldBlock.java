@@ -10,12 +10,12 @@ import com.github.interpreter.language.number.Long;
 import com.github.interpreter.language.number.Short;
 import com.github.interpreter.language.operator.ArithmeticalOperator;
 import com.github.interpreter.parser.expression.*;
-import com.github.interpreter.token.type.Type;
+import com.github.interpreter.token.type.GenericType;
 
 public class FieldBlock implements Block, Constructor<FieldExpression> {
 
     private String name;
-    private Type genericType;
+    private GenericType genericType;
     private String customType;
 
     private boolean declaredFinal;
@@ -78,7 +78,7 @@ public class FieldBlock implements Block, Constructor<FieldExpression> {
         this.name = name;
     }
 
-    public Type getGenericType() {
+    public GenericType getGenericType() {
         return genericType;
     }
 

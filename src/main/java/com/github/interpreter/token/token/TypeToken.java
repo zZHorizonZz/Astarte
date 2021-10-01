@@ -1,4 +1,7 @@
-package com.github.interpreter.token.type;
+package com.github.interpreter.token.token;
+
+import com.github.interpreter.token.type.GenericType;
+import com.github.interpreter.token.type.TokenType;
 
 public class TypeToken extends Token {
 
@@ -19,7 +22,7 @@ public class TypeToken extends Token {
         this.type = type;
     }
 
-    public Type getType() {
-        return Type.getByName(type);
+    public GenericType getType() {
+        return GenericType.getByName(type);
     }
 }

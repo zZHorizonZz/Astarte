@@ -1,6 +1,6 @@
 package com.github.interpreter.token;
 
-import com.github.interpreter.token.type.*;
+import com.github.interpreter.token.token.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

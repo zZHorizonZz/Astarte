@@ -1,9 +1,9 @@
 package com.github.interpreter.parser.type;
 
 import com.github.interpreter.parser.Declarator;
-import com.github.interpreter.token.type.IdentifierToken;
-import com.github.interpreter.token.type.Token;
-import com.github.interpreter.token.type.Type;
+import com.github.interpreter.token.token.IdentifierToken;
+import com.github.interpreter.token.token.Token;
+import com.github.interpreter.token.type.GenericType;
 import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException;
 import org.apache.commons.lang3.StringUtils;
 
@@ -12,7 +12,7 @@ public class VariablePrefixDeclarator implements Declarator<VariablePrefixDeclar
     private String name;
 
     private String customType;
-    private Type genericType;
+    private GenericType genericType;
 
     public VariablePrefixDeclarator() {
     }
@@ -34,9 +34,9 @@ public class VariablePrefixDeclarator implements Declarator<VariablePrefixDeclar
                     throw new UnknownSyntaxException("Variable has been recognized as keyword but there is problem with it's casing.");
                 }
 
-                Type type = Type.getByName(token.getValue());
-                if (type != null) {
-                    this.genericType = type;
+                GenericType genericType = GenericType.getByName(token.getValue());
+                if (genericType != null) {
+                    this.genericType = genericType;
                     this.customType = token.getValue();
                 } else {
                     throw new UnknownSyntaxException("Variable has been recognized as keyword but is not recognized as allowed variable.");
@@ -66,7 +66,7 @@ public class VariablePrefixDeclarator implements Declarator<VariablePrefixDeclar
         return customType;
     }
 
-    public Type getGenericType() {
+    public GenericType getGenericType() {
         return genericType;
     }
 

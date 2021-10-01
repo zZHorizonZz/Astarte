@@ -2,5 +2,5 @@
 
 # TODO:
 
-- Think over type class and class.
+- Think over genericType class and class.
  

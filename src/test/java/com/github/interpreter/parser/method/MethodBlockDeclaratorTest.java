@@ -1,10 +1,8 @@
 package com.github.interpreter.parser.method;
 
 import com.github.interpreter.token.Tokenizer;
-import com.github.interpreter.token.type.Token;
+import com.github.interpreter.token.token.Token;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class MethodBlockDeclaratorTest {
 

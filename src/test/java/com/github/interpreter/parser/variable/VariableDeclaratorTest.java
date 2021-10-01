@@ -6,8 +6,8 @@ import com.github.interpreter.language.number.Integer;
 import com.github.interpreter.parser.expression.FieldExpression;
 import com.github.interpreter.parser.expression.OperatorExpression;
 import com.github.interpreter.token.Tokenizer;
-import com.github.interpreter.token.type.Token;
-import com.github.interpreter.token.type.Type;
+import com.github.interpreter.token.token.Token;
+import com.github.interpreter.token.type.GenericType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +23,7 @@ class VariableDeclaratorTest {
         List<Token> tokenList = tokenizer.tokenize();
 
         variableDeclarator.parse(tokenList.toArray(new Token[0]));
-        Assertions.assertEquals(Type.INTEGER, variableDeclarator.getPrefixDeclarator().getGenericType());
+        Assertions.assertEquals(GenericType.INTEGER, variableDeclarator.getPrefixDeclarator().getGenericType());
         Assertions.assertEquals("field", variableDeclarator.getName());
         Assertions.assertEquals(OperatorExpression.class, variableDeclarator.getInitializer().getExpression().getClass());
     }

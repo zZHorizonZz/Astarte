@@ -1,8 +1,8 @@
 package com.github.interpreter.parser.method;
 
 import com.github.interpreter.token.Tokenizer;
-import com.github.interpreter.token.type.Token;
-import com.github.interpreter.token.type.Type;
+import com.github.interpreter.token.token.Token;
+import com.github.interpreter.token.type.GenericType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +27,7 @@ class MethodDeclaratorTest {
 
         Assertions.assertEquals("parse", declarator.getName());
         Assertions.assertEquals(1, declarator.getArguments().length);
-        Assertions.assertEquals(Type.STRING, declarator.getArguments()[0].getGenericType());
+        Assertions.assertEquals(GenericType.STRING, declarator.getArguments()[0].getGenericType());
     }
 
     @Test
@@ -39,7 +39,7 @@ class MethodDeclaratorTest {
 
         Assertions.assertEquals("parse", declarator.getName());
         Assertions.assertEquals(2, declarator.getArguments().length);
-        Assertions.assertEquals(Type.STRING, declarator.getArguments()[0].getGenericType());
-        Assertions.assertEquals(Type.INTEGER, declarator.getArguments()[1].getGenericType());
+        Assertions.assertEquals(GenericType.STRING, declarator.getArguments()[0].getGenericType());
+        Assertions.assertEquals(GenericType.INTEGER, declarator.getArguments()[1].getGenericType());
     }
 }

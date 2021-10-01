@@ -3,10 +3,10 @@ package com.github.interpreter.parser.method;
 import com.github.interpreter.common.language.UtilToken;
 import com.github.interpreter.parser.Declarator;
 import com.github.interpreter.parser.type.VariablePrefixDeclarator;
-import com.github.interpreter.token.type.IdentifierToken;
-import com.github.interpreter.token.type.SeparatorToken;
-import com.github.interpreter.token.type.Token;
-import com.github.interpreter.token.type.TypeToken;
+import com.github.interpreter.token.token.IdentifierToken;
+import com.github.interpreter.token.token.SeparatorToken;
+import com.github.interpreter.token.token.Token;
+import com.github.interpreter.token.token.TypeToken;
 import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException;
 
 import java.util.LinkedList;

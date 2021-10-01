@@ -4,7 +4,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
-public enum KeyWord {
+public enum KeyWordType {
     IF("if"),
     ELSE("else"),
     WHILE("while"),
@@ -12,7 +12,7 @@ public enum KeyWord {
 
     private final String keyword;
 
-    KeyWord(String keyword) {
+    KeyWordType(String keyword) {
         this.keyword = keyword;
     }
 
@@ -21,7 +21,7 @@ public enum KeyWord {
     }
 
     @Nullable
-    public static KeyWord getByName(String value) {
-        return Arrays.stream(values()).filter(keyWord -> keyWord.getKeyword().equals(value)).findFirst().orElse(null);
+    public static KeyWordType getByName(String value) {
+        return Arrays.stream(values()).filter(keyWordType -> keyWordType.getKeyword().equals(value)).findFirst().orElse(null);
     }
 }

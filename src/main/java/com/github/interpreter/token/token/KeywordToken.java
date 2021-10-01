@@ -1,4 +1,7 @@
-package com.github.interpreter.token.type;
+package com.github.interpreter.token.token;
+
+import com.github.interpreter.token.type.KeyWordType;
+import com.github.interpreter.token.type.TokenType;
 
 public class KeywordToken extends Token {
 
@@ -19,7 +22,7 @@ public class KeywordToken extends Token {
         this.keyword = keyword;
     }
 
-    public KeyWord getKeyWord() {
-        return KeyWord.getByName(keyword);
+    public KeyWordType getKeyWord() {
+        return KeyWordType.getByName(keyword);
     }
 }

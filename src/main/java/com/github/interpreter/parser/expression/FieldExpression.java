@@ -1,13 +1,13 @@
 package com.github.interpreter.parser.expression;
 
 import com.github.interpreter.parser.type.VariablePrefixDeclarator;
-import com.github.interpreter.token.type.Type;
+import com.github.interpreter.token.type.GenericType;
 
 public class FieldExpression implements Expression {
 
     private String name;
 
-    private Type genericType;
+    private GenericType genericType;
     private String customType;
     private boolean declaredFinal;
 
@@ -32,11 +32,11 @@ public class FieldExpression implements Expression {
         this.name = name;
     }
 
-    public Type getGenericType() {
+    public GenericType getGenericType() {
         return genericType;
     }
 
-    public void setGenericType(Type genericType) {
+    public void setGenericType(GenericType genericType) {
         this.genericType = genericType;
     }
 

@@ -3,10 +3,10 @@ package com.github.interpreter.parser.variable;
 import com.github.interpreter.parser.Declarator;
 import com.github.interpreter.parser.expression.FieldExpression;
 import com.github.interpreter.parser.type.VariablePrefixDeclarator;
-import com.github.interpreter.token.type.ModifierToken;
+import com.github.interpreter.token.token.ModifierToken;
+import com.github.interpreter.token.token.OperatorToken;
+import com.github.interpreter.token.token.Token;
 import com.github.interpreter.token.type.ModifierType;
-import com.github.interpreter.token.type.OperatorToken;
-import com.github.interpreter.token.type.Token;
 import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException;
 
 import java.util.Arrays;

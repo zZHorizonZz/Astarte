@@ -4,10 +4,10 @@ import com.github.interpreter.common.language.UtilToken;
 import com.github.interpreter.parser.Declarator;
 import com.github.interpreter.parser.expression.Expression;
 import com.github.interpreter.parser.variable.VariableDeclarator;
-import com.github.interpreter.token.type.IdentifierToken;
-import com.github.interpreter.token.type.KeywordToken;
-import com.github.interpreter.token.type.Token;
-import com.github.interpreter.token.type.TypeToken;
+import com.github.interpreter.token.token.IdentifierToken;
+import com.github.interpreter.token.token.KeywordToken;
+import com.github.interpreter.token.token.Token;
+import com.github.interpreter.token.token.TypeToken;
 
 import java.util.Arrays;
 import java.util.LinkedList;

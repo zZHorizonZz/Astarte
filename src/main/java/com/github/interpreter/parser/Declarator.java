@@ -1,6 +1,6 @@
 package com.github.interpreter.parser;
 
-import com.github.interpreter.token.type.Token;
+import com.github.interpreter.token.token.Token;
 
 public interface Declarator<T> {
 

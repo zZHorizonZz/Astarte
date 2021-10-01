@@ -1,4 +1,7 @@
-package com.github.interpreter.token.type;
+package com.github.interpreter.token.token;
+
+import com.github.interpreter.token.type.ModifierType;
+import com.github.interpreter.token.type.TokenType;
 
 public class ModifierToken extends Token {
 
