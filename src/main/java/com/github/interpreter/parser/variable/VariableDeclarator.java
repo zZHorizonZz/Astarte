@@ -61,8 +61,8 @@ public class VariableDeclarator implements Declarator<FieldExpression> {
         }
 
         FieldExpression expression = new FieldExpression(prefixDeclarator.getName());
-        expression.setCustomType(expression.getCustomType());
-        expression.setGenericType(expression.getGenericType());
+        expression.setCustomType(prefixDeclarator.getCustomType());
+        expression.setGenericType(prefixDeclarator.getGenericType());
 
         expression.setInitializer(initializer.getExpression());
         expression.setDeclaredFinal(declaredFinal);

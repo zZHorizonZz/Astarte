@@ -1,6 +1,7 @@
 package com.github.interpreter.language.method;
 
 import com.github.interpreter.language.logic.FieldBlock;
+import com.github.interpreter.language.number.Integer;
 import com.github.interpreter.parser.method.MethodBlockDeclarator;
 import com.github.interpreter.token.Tokenizer;
 import com.github.interpreter.token.type.Token;
@@ -29,5 +30,21 @@ class MethodBlockTest {
 
     @Test
     void testInvoke() {
+        MethodBlockDeclarator blockDeclarator = new MethodBlockDeclarator();
+        Tokenizer tokenizer = new Tokenizer("{ " +
+                "int supply = 5;" +
+                "string testString = \"Super\";" +
+                " }");
+
+        blockDeclarator.parse(tokenizer.tokenize().toArray(Token[]::new));
+
+        MethodBlock block = new MethodBlock();
+        block.construct(blockDeclarator);
+        block.invoke();
+
+        Assertions.assertEquals(2, block.getBlockList().size());
+        Assertions.assertEquals(FieldBlock.class, block.getBlockList().get(0).getClass());
+        Assertions.assertEquals(5, ((Integer) ((FieldBlock) block.getBlockList().get(0)).getValue()).getValue());
+        Assertions.assertEquals(FieldBlock.class, block.getBlockList().get(1).getClass());
     }
 }
