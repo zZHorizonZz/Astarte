@@ -2,12 +2,6 @@ package com.github.interpreter.language.logic;
 
 import com.github.interpreter.language.Constructor;
 import com.github.interpreter.language.Object;
-import com.github.interpreter.language.number.Byte;
-import com.github.interpreter.language.number.Double;
-import com.github.interpreter.language.number.Float;
-import com.github.interpreter.language.number.Integer;
-import com.github.interpreter.language.number.Long;
-import com.github.interpreter.language.number.Short;
 import com.github.interpreter.language.operator.ArithmeticalOperator;
 import com.github.interpreter.parser.expression.*;
 import com.github.interpreter.token.type.GenericType;
@@ -24,6 +18,7 @@ public class FieldBlock implements Block, Constructor<FieldExpression> {
     private Object value;
 
     public FieldBlock() {
+        System.out.println();
     }
 
     public FieldBlock(FieldExpression expression) {
@@ -50,15 +45,7 @@ public class FieldBlock implements Block, Constructor<FieldExpression> {
         } else if (initializer instanceof ReferenceExpression) {
 
         } else if (initializer instanceof VariableExpression) {
-            switch (genericType) {
-                case BYTE -> value = new Byte(((VariableExpression) initializer).byteValue());
-                case SHORT -> value = new Short(((VariableExpression) initializer).shortValue());
-                case INTEGER -> value = new Integer(((VariableExpression) initializer).intValue());
-                case LONG -> value = new Long(((VariableExpression) initializer).longValue());
-                case FLOAT -> value = new Float(((VariableExpression) initializer).floatValue());
-                case DOUBLE -> value = new Double(((VariableExpression) initializer).doubleValue());
-                case BOOLEAN -> throw new UnsupportedOperationException("This operation is not currently supported.");
-            }
+            value = ((VariableExpression) initializer).value();
         }
     }
 

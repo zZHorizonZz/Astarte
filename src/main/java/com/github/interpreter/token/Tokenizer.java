@@ -1,7 +1,10 @@
 package com.github.interpreter.token;
 
 
+import com.github.interpreter.common.language.UtilType;
 import com.github.interpreter.token.token.*;
+import com.github.interpreter.token.token.literal.*;
+import com.github.interpreter.token.type.GenericType;
 import com.github.interpreter.token.type.TokenType;
 
 import java.util.LinkedList;
@@ -95,8 +98,9 @@ public class Tokenizer {
     }
 
     private Token evaluate(String word) {
-        if (evaluateLiteral(word)) {
-            return new LiteralToken(word);
+        Token literalToken = evaluateLiteral(word);
+        if (literalToken != null) {
+            return literalToken;
         }
 
         TokenType genericType = TokenType.detectType(word);
@@ -122,12 +126,41 @@ public class Tokenizer {
         return new IdentifierToken(word);
     }
 
-    private boolean evaluateLiteral(String word) {
+    private LiteralToken<?> evaluateLiteral(String word) {
         if (word.startsWith("\"") && word.endsWith("\"")) {
-            return true;
+            return new StringLiteralToken(word);
         } else if (NUMBER_PATTERN.matcher(word).matches()) {
-            return true;
-        } else return word.matches("true") || word.matches("false");
+            GenericType type = UtilType.getType(word);
+            if (type == null) {
+                return null;
+            }
+
+            switch (type) {
+                case INTEGER -> {
+                    return new IntegerLiteralToken(Integer.parseInt(word));
+                }
+
+                case LONG -> {
+                    return new LongLiteralToken(Long.parseLong(word));
+                }
+
+                case FLOAT -> {
+                    return new FloatLiteralToken(Float.parseFloat(word));
+                }
+
+                case DOUBLE -> {
+                    return new DoubleLiteralToken(Double.parseDouble(word));
+                }
+
+                default -> {
+                    return null;
+                }
+            }
+        } else if (word.matches("true") || word.matches("false")) {
+            return new BooleanLiteralToken(Boolean.parseBoolean(word));
+        }
+
+        return null;
     }
 
     public String getSupply() {
