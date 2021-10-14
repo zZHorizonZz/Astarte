@@ -1,8 +1,11 @@
 package com.github.interpreter.parser.expression;
 
-public class ReferenceExpression extends VariableExpression {
+public class ReferenceExpression implements Expression {
 
-    public ReferenceExpression(String value) {
-        super(value);
+    private String name;
+    private Expression[] parameters;
+
+    public ReferenceExpression(String name) {
+
     }
 }

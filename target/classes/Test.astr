@@ -1,19 +1,24 @@
 import test;
 
-dictionary {
+dictionary System {
     class Main {
         int testNumber = 5;
         String testString = "Default String" { get; set; }
 
         Main(String name) {
+            string testString = testReturn()[0];
+            int testInt = testReturn()[1];
+        }
+
+        init(String[] args) : int {
 
         }
 
-        init(String[] args) :: int {
+        testMethod() : int => return 1;
 
+        testReturn() : [string, int] {
+            return "test", 5;
         }
-
-        testMethod() :: int => return 1;
     }
 
     class Test :: Super {

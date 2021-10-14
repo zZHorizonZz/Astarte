@@ -5,11 +5,12 @@ import java.util.Arrays;
 public enum TokenType {
 
     IDENTIFIER(),
-    KEYWORD("if", "else", "while", "return", "final"),
+    KEYWORD("if", "else", "while", "return", "class"),
     TYPE("byte", "short", "int", "long", "float", "double", "boolean", "string"),
+    MODIFIER("final", "system"),
     LITERAL(),
+    SEPARATOR("(", ")", ";", "{", "}", ".", ":", "::", "=>"),
     OPERATOR("+", "-", "=", "<<", ">>>", ">>"),
-    SEPARATOR("(", ")", ";", "{", "}", "."),
     UNKNOWN();
 
     private final String[] keywords;

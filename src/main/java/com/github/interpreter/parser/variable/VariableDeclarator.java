@@ -1,23 +1,25 @@
 package com.github.interpreter.parser.variable;
 
-import com.github.interpreter.language.Field;
 import com.github.interpreter.parser.Declarator;
-import com.github.interpreter.parser.type.VariableTypeDeclarator;
-import com.github.interpreter.token.type.*;
+import com.github.interpreter.parser.expression.FieldExpression;
+import com.github.interpreter.parser.type.VariablePrefixDeclarator;
+import com.github.interpreter.token.token.ModifierToken;
+import com.github.interpreter.token.token.OperatorToken;
+import com.github.interpreter.token.token.Token;
+import com.github.interpreter.token.type.ModifierType;
 import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException;
 
 import java.util.Arrays;
 
-public class VariableDeclarator implements Declarator {
+public class VariableDeclarator implements Declarator<FieldExpression> {
 
-    private String name;
-    private VariableTypeDeclarator type;
+    private VariablePrefixDeclarator prefixDeclarator;
     private boolean declaredFinal;
 
     private VariableInitializer initializer;
 
     @Override
-    public Declarator parse(Token[] tokens) {
+    public FieldExpression parse(Token[] tokens) {
         if (tokens == null || tokens.length < 1) {
             throw new IllegalArgumentException("Tokens passed to declarator are null or their are empty!");
         }
@@ -28,26 +30,23 @@ public class VariableDeclarator implements Declarator {
 
         switch (initializerToken.getTokenType()) {
             case IDENTIFIER, TYPE -> {
-                type = (VariableTypeDeclarator) new VariableTypeDeclarator(this).parse(new Token[]{initializerToken});
+                prefixDeclarator = new VariablePrefixDeclarator().parse(new Token[]{initializerToken, tokens[tokenIndex++]});
             }
 
             case KEYWORD -> {
-                KeyWord keyWord = ((KeywordToken) initializerToken).getKeyWord();
-                if (keyWord != null && keyWord.equals(KeyWord.FINAL)) {
+                throw new UnsupportedOperationException("This operation is not currently supported.");
+            }
+
+            case MODIFIER -> {
+                ModifierType modifier = ((ModifierToken) initializerToken).getModifier();
+                if (modifier != null && modifier.equals(ModifierType.FINAL)) {
                     declaredFinal = true;
                     initializerToken = tokens[tokenIndex++];
-                    type = (VariableTypeDeclarator) new VariableTypeDeclarator(this).parse(new Token[]{initializerToken});
+                    prefixDeclarator = new VariablePrefixDeclarator().parse(new Token[]{initializerToken, tokens[tokenIndex++]});
                 } else {
                     throw new UnknownSyntaxException("Something went wrong when initializing variable.");
                 }
             }
-        }
-
-        Token nameToken = tokens[tokenIndex++];
-        if (nameToken instanceof IdentifierToken) {
-            name = nameToken.getValue();
-        } else {
-            throw new UnknownSyntaxException("Something went wrong when initializing variable.");
         }
 
         Token equalsToken = tokens[tokenIndex++];
@@ -65,22 +64,22 @@ public class VariableDeclarator implements Declarator {
             throw new UnknownSyntaxException("Something went wrong when initializing variable.");
         }
 
-        return this;
-    }
+        FieldExpression expression = new FieldExpression(prefixDeclarator.getName());
+        expression.setCustomType(prefixDeclarator.getCustomType());
+        expression.setGenericType(prefixDeclarator.getGenericType());
 
-    public Field buildField() {
-        Field field = new Field(name);
-        field.setInitializer(initializer.getExpression());
-        //field.setReturnType(type.getType());
-        return field;
+        expression.setInitializer(initializer.getExpression());
+        expression.setDeclaredFinal(declaredFinal);
+
+        return expression;
     }
 
     public String getName() {
-        return name;
+        return prefixDeclarator.getName();
     }
 
-    public VariableTypeDeclarator getType() {
-        return type;
+    public VariablePrefixDeclarator getPrefixDeclarator() {
+        return prefixDeclarator;
     }
 
     public boolean isDeclaredFinal() {

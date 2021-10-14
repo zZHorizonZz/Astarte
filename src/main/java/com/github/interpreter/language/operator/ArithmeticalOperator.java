@@ -4,10 +4,18 @@ import com.github.interpreter.language.exception.InvalidArithmeticOperationExcep
 import com.github.interpreter.language.number.Number;
 import com.github.interpreter.parser.expression.OperatorExpression;
 import com.github.interpreter.parser.expression.VariableExpression;
-import org.apache.commons.lang3.StringUtils;
+import com.github.interpreter.token.type.GenericType;
 
-public record ArithmeticalOperator(String operator) {
+public class ArithmeticalOperator {
 
+    private final String operator;
+    private GenericType type = GenericType.INTEGER;
+
+    public ArithmeticalOperator(String operator) {
+        this.operator = operator;
+    }
+
+    //TODO Think over of the variable expression and data stored inside of it.
     public Number apply(Number leftSide, Number rightSide) {
         switch (operator) {
             case ("+") -> {
@@ -34,16 +42,16 @@ public record ArithmeticalOperator(String operator) {
         Number leftSide = null;
         Number rightSide = null;
 
-        if (expression.getLeftSide() instanceof OperatorExpression) {
-            leftSide = process((OperatorExpression) expression.getLeftSide());
-        } else if (expression.getLeftSide() instanceof VariableExpression && StringUtils.isNumeric(((VariableExpression) expression.getLeftSide()).getValue())) {
-            leftSide = Number.createNumber(((VariableExpression) expression.getLeftSide()).getValue());
+        if (expression.leftSide() instanceof OperatorExpression) {
+            leftSide = process((OperatorExpression) expression.leftSide());
+        } else if (expression.leftSide() instanceof VariableExpression && ((VariableExpression) expression.leftSide()).value() instanceof Number) {
+            leftSide = (Number) ((VariableExpression) expression.leftSide()).value();
         }
 
-        if (expression.getRightSide() instanceof OperatorExpression) {
-            rightSide = process((OperatorExpression) expression.getRightSide());
-        } else if (expression.getRightSide() instanceof VariableExpression && StringUtils.isNumeric(((VariableExpression) expression.getRightSide()).getValue())) {
-            rightSide = Number.createNumber(((VariableExpression) expression.getRightSide()).getValue());
+        if (expression.rightSide() instanceof OperatorExpression) {
+            rightSide = process((OperatorExpression) expression.rightSide());
+        } else if (expression.rightSide() instanceof VariableExpression && ((VariableExpression) expression.rightSide()).value() instanceof Number) {
+            rightSide = (Number) ((VariableExpression) expression.rightSide()).value();
         }
 
         return apply(rightSide, leftSide);
@@ -51,5 +59,13 @@ public record ArithmeticalOperator(String operator) {
 
     public String getOperator() {
         return operator;
+    }
+
+    public GenericType getType() {
+        return type;
+    }
+
+    public void setType(GenericType type) {
+        this.type = type;
     }
 }

@@ -4,7 +4,11 @@ import com.github.interpreter.parser.expression.Expression;
 import com.github.interpreter.parser.expression.OperatorExpression;
 import com.github.interpreter.parser.expression.ReferenceExpression;
 import com.github.interpreter.parser.expression.VariableExpression;
-import com.github.interpreter.token.type.*;
+import com.github.interpreter.token.token.IdentifierToken;
+import com.github.interpreter.token.token.OperatorToken;
+import com.github.interpreter.token.token.SeparatorToken;
+import com.github.interpreter.token.token.Token;
+import com.github.interpreter.token.token.literal.LiteralToken;
 import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException;
 
 public class VariableInitializer {
@@ -24,9 +28,9 @@ public class VariableInitializer {
         return evaluateOperator(tokens);
     }
 
-    private VariableExpression evaluateVariable(Token token) {
+    private Expression evaluateVariable(Token token) {
         if (token instanceof LiteralToken) {
-            return new VariableExpression(token.getValue());
+            return new VariableExpression(((LiteralToken<?>) token).getLiteral());
         } else if (token instanceof IdentifierToken) {
             return new ReferenceExpression(token.getValue());
         } else {

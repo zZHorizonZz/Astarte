@@ -1,14 +1,7 @@
 package com.github.interpreter.parser.expression;
 
-public class VariableExpression implements Expression {
+import com.github.interpreter.language.Object;
 
-    private final String value;
+public record VariableExpression(Object value) implements Expression {
 
-    public VariableExpression(String value) {
-        this.value = value;
-    }
-
-    public String getValue() {
-        return value;
-    }
 }

@@ -1,41 +1,45 @@
 package com.github.interpreter.language.method;
 
-import com.github.interpreter.token.type.LiteralToken;
-import com.github.interpreter.token.type.Token;
+import com.github.interpreter.language.Constructor;
+import com.github.interpreter.language.logic.FieldBlock;
+import com.github.interpreter.parser.expression.FieldExpression;
+import com.github.interpreter.parser.method.MethodDeclarator;
+import com.github.interpreter.token.type.GenericType;
 
-import java.util.List;
+import java.util.Arrays;
 
-public class Method {
+public class Method implements Constructor<MethodDeclarator> {
 
     private String name;
 
-    private LiteralToken returnType;
-    private LiteralToken[] arguments;
+    private GenericType returnGenericType;
+    private FieldBlock[] arguments;
 
-    private MethodContainer container;
+    private MethodBlock methodBlock;
 
-    public Method(Token... tokens) {
+    @Override
+    public void construct(MethodDeclarator declarator) {
+        name = declarator.getName();
+        arguments = Arrays.stream(declarator.getArguments()).
+                map(variableDeclarator -> new FieldBlock(new FieldExpression(variableDeclarator))).toArray(FieldBlock[]::new);
 
+        methodBlock = new MethodBlock();
+        methodBlock.construct(declarator.getBlockDeclarator());
     }
 
-    public Method(List<Token> tokenList) {
-        java.lang.reflect.Method method;
+    public String getName() {
+        return name;
     }
 
-    public void construct(Token... tokens) {
-        Token returnType = tokens[0];
-        Token name = tokens[1];
-
-        Token openingColon = tokens[2];
-        Token closingColon = tokens[3];
-
-        Token methodOpeningColon = tokens[4];
-
-        if (returnType.getValue().equals("void")) {
-            this.returnType = null;
-        } else {
-            this.returnType = (LiteralToken) returnType;
-        }
+    public GenericType getReturnType() {
+        return returnGenericType;
     }
 
+    public FieldBlock[] getArguments() {
+        return arguments;
+    }
+
+    public MethodBlock getMethodBlock() {
+        return methodBlock;
+    }
 }
