@@ -36,8 +36,9 @@ class VariableDeclaratorTest {
 
         FieldExpression fieldExpression = variableDeclarator.parse(tokenList.toArray(new Token[0]));
 
-        FieldBlock fieldBlock = new FieldBlock(fieldExpression);
-        fieldBlock.initialize();
+        FieldBlock fieldBlock = new FieldBlock();
+        fieldBlock.construct(fieldExpression);
+        fieldBlock.initialize(null); //In current context this can be null.
 
         Assertions.assertTrue(fieldBlock.isInitialized());
         Object number = fieldBlock.getValue();
@@ -58,8 +59,10 @@ class VariableDeclaratorTest {
 
         FieldExpression fieldExpression = variableDeclarator.parse(tokenList.toArray(new Token[0]));
 
-        FieldBlock fieldBlock = new FieldBlock(fieldExpression);
-        fieldBlock.initialize();
+        FieldBlock fieldBlock = new FieldBlock();
+        fieldBlock.construct(fieldExpression);
+        
+        fieldBlock.initialize(null);
 
         Assertions.assertTrue(fieldBlock.isInitialized());
         Object number = fieldBlock.getValue();

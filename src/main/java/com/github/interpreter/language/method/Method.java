@@ -21,9 +21,13 @@ public class Method implements Constructor<MethodDeclarator> {
     public void construct(MethodDeclarator declarator) {
         name = declarator.getName();
         arguments = Arrays.stream(declarator.getArguments()).
-                map(variableDeclarator -> new FieldBlock(new FieldExpression(variableDeclarator))).toArray(FieldBlock[]::new);
+                map(variableDeclarator -> {
+                    FieldBlock fieldBlock = new FieldBlock();
+                    fieldBlock.construct(new FieldExpression(variableDeclarator));
+                    return fieldBlock;
+                }).toArray(FieldBlock[]::new);
 
-        methodBlock = new MethodBlock();
+        methodBlock = new MethodBlock(this);
         methodBlock.construct(declarator.getBlockDeclarator());
     }
 

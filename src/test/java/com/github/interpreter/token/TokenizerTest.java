@@ -40,7 +40,6 @@ public class TokenizerTest {
         Assertions.assertEquals(";", tokenList.get(4).getValue());
     }
 
-
     private void testValue(String keyword, int value) {
         Tokenizer tokenizer = new Tokenizer(keyword + " field = " + value + ";");
         List<Token> tokenList = tokenizer.tokenize();

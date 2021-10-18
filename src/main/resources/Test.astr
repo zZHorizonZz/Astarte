@@ -1,6 +1,6 @@
 import test;
 
-dictionary System {
+container System {
     class Main {
         int testNumber = 5;
         String testString = "Default String" { get; set; }

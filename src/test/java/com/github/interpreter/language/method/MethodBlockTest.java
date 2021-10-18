@@ -20,7 +20,7 @@ class MethodBlockTest {
 
         blockDeclarator.parse(tokenizer.tokenize().toArray(Token[]::new));
 
-        MethodBlock block = new MethodBlock();
+        MethodBlock block = new MethodBlock(new Method());
         block.construct(blockDeclarator);
 
         Assertions.assertEquals(2, block.getBlockList().size());
@@ -38,7 +38,7 @@ class MethodBlockTest {
 
         blockDeclarator.parse(tokenizer.tokenize().toArray(Token[]::new));
 
-        MethodBlock block = new MethodBlock();
+        MethodBlock block = new MethodBlock(new Method());
         block.construct(blockDeclarator);
         block.invoke();
 

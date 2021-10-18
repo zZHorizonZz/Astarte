@@ -1,11 +1,5 @@
 package com.github.interpreter.parser.expression;
 
-public class ReferenceExpression implements Expression {
+public record ReferenceExpression(String name) implements Expression {
 
-    private String name;
-    private Expression[] parameters;
-
-    public ReferenceExpression(String name) {
-
-    }
 }

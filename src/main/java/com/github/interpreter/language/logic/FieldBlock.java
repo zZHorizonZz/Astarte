@@ -2,9 +2,11 @@ package com.github.interpreter.language.logic;
 
 import com.github.interpreter.language.Constructor;
 import com.github.interpreter.language.Object;
+import com.github.interpreter.language.method.MethodBlock;
 import com.github.interpreter.language.operator.ArithmeticalOperator;
 import com.github.interpreter.parser.expression.*;
 import com.github.interpreter.token.type.GenericType;
+import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException;
 
 public class FieldBlock implements Block, Constructor<FieldExpression> {
 
@@ -21,10 +23,6 @@ public class FieldBlock implements Block, Constructor<FieldExpression> {
         System.out.println();
     }
 
-    public FieldBlock(FieldExpression expression) {
-        construct(expression);
-    }
-
     @Override
     public void construct(FieldExpression resource) {
         this.name = resource.getName();
@@ -35,15 +33,24 @@ public class FieldBlock implements Block, Constructor<FieldExpression> {
         this.initializer = resource.getInitializer();
     }
 
-    public void initialize() {
+    public void initialize(MethodBlock block) {
         if (initializer == null) {
             return;
         }
 
         if (initializer instanceof OperatorExpression) {
             value = new ArithmeticalOperator(((OperatorExpression) initializer).operator()).process((OperatorExpression) initializer);
-        } else if (initializer instanceof ReferenceExpression) {
-
+        } else if (initializer instanceof ReferenceExpression reference) {
+            FieldBlock fieldBlock = block.getFieldMap().get(reference.name());
+            if (fieldBlock != null && fieldBlock.isInitialized()) {
+                if (fieldBlock.getGenericType().equals(genericType)) {
+                    value = fieldBlock.getValue();
+                } else {
+                    throw new ClassCastException("Value can not be casted from " + fieldBlock.getGenericType().name() + " to " + genericType.name());
+                }
+            } else {
+                throw new UnknownSyntaxException("Field block can not be recognized or is not currently initialized.");
+            }
         } else if (initializer instanceof VariableExpression) {
             value = ((VariableExpression) initializer).value();
         }

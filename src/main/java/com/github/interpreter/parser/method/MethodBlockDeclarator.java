@@ -15,7 +15,7 @@ import java.util.List;
 
 public class MethodBlockDeclarator implements Declarator<MethodBlockDeclarator> {
 
-    private List<Expression> body = new LinkedList<>();
+    private final List<Expression> body = new LinkedList<>();
 
     @Override
     public MethodBlockDeclarator parse(Token[] tokens) {
