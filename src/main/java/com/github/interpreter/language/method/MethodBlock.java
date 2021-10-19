@@ -1,6 +1,7 @@
 package com.github.interpreter.language.method;
 
 import com.github.interpreter.language.Constructor;
+import com.github.interpreter.language.Object;
 import com.github.interpreter.language.logic.Block;
 import com.github.interpreter.language.logic.FieldBlock;
 import com.github.interpreter.parser.expression.Expression;
@@ -41,9 +42,9 @@ public class MethodBlock implements Constructor<MethodBlockDeclarator> {
         }
     }
 
-    public void invoke() {
+    public Object invoke() {
         if (blockList.isEmpty()) {
-            return;
+            return null;
         }
 
         for (Block block : blockList) {
@@ -51,6 +52,12 @@ public class MethodBlock implements Constructor<MethodBlockDeclarator> {
                 ((FieldBlock) block).initialize(this);
             }
         }
+
+        return null;
+    }
+
+    public Method getMethod() {
+        return method;
     }
 
     public List<Block> getBlockList() {
