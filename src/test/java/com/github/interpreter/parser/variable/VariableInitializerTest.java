@@ -28,7 +28,7 @@ class VariableInitializerTest {
     @Test
     void testMediumParse() {
         VariableInitializer initializer = new VariableInitializer();
-        Tokenizer tokenizer = new Tokenizer("int field = 5 + 5;");
+        Tokenizer tokenizer = new Tokenizer("int field = 5 + 8;");
         List<Token> tokenList = tokenizer.tokenize();
 
         Expression expression = initializer.parse(Arrays.copyOfRange(tokenList.toArray(new Token[0]), 3, tokenList.size()));
@@ -37,6 +37,6 @@ class VariableInitializerTest {
         Assertions.assertEquals(VariableExpression.class, ((OperatorExpression) expression).leftSide().getClass());
         Assertions.assertEquals(5, ((Integer) ((VariableExpression) ((OperatorExpression) expression).leftSide()).value()).getValue());
         Assertions.assertEquals(VariableExpression.class, ((OperatorExpression) expression).rightSide().getClass());
-        Assertions.assertEquals(5, ((Integer) ((VariableExpression) ((OperatorExpression) expression).rightSide()).value()).getValue());
+        Assertions.assertEquals(8, ((Integer) ((VariableExpression) ((OperatorExpression) expression).rightSide()).value()).getValue());
     }
 }

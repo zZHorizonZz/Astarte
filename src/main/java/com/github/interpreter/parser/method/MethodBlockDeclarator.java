@@ -5,9 +5,8 @@ import com.github.interpreter.parser.Declarator;
 import com.github.interpreter.parser.expression.Expression;
 import com.github.interpreter.parser.variable.VariableDeclarator;
 import com.github.interpreter.token.token.IdentifierToken;
-import com.github.interpreter.token.token.KeywordToken;
+import com.github.interpreter.token.token.OperatorToken;
 import com.github.interpreter.token.token.Token;
-import com.github.interpreter.token.token.TypeToken;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -25,20 +24,30 @@ public class MethodBlockDeclarator implements Declarator<MethodBlockDeclarator> 
 
         for (int i = 1; i < tokens.length - 1; i++) {
             Token token = tokens[i];
-            if (token instanceof KeywordToken) {
 
-            }
+            switch (token.getTokenType()) {
+                case KEYWORD -> {
 
-            if (token instanceof TypeToken || token instanceof IdentifierToken) {
-                Token[] fieldTokens = UtilToken.getBlock(Arrays.copyOfRange(tokens, i, tokens.length), null, ";");
-                VariableDeclarator fieldDeclarator = new VariableDeclarator();
-                Expression field = fieldDeclarator.parse(fieldTokens);
-
-                if (field != null) {
-                    body.add(field);
                 }
 
-                i += fieldTokens.length;
+                case TYPE, IDENTIFIER -> {
+                    Token[] expressionTokens = UtilToken.getBlock(Arrays.copyOfRange(tokens, i, tokens.length), null, ";");
+                    Expression expression;
+
+                    if (token instanceof IdentifierToken && token.hasRightSide() && !(token.getRightSide() instanceof OperatorToken)) {
+                        MethodReferenceDeclarator methodReferenceDeclarator = new MethodReferenceDeclarator();
+                        expression = methodReferenceDeclarator.parse(expressionTokens);
+                    } else {
+                        VariableDeclarator fieldDeclarator = new VariableDeclarator();
+                        expression = fieldDeclarator.parse(expressionTokens);
+                    }
+
+                    if (expression != null) {
+                        body.add(expression);
+                    }
+
+                    i += expressionTokens.length;
+                }
             }
         }
 

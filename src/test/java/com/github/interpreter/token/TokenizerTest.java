@@ -2,7 +2,6 @@ package com.github.interpreter.token;
 
 import com.github.interpreter.token.token.*;
 import com.github.interpreter.token.token.literal.IntegerLiteralToken;
-import com.github.interpreter.token.token.literal.LiteralToken;
 import com.github.interpreter.token.token.literal.StringLiteralToken;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -34,7 +33,7 @@ public class TokenizerTest {
         Assertions.assertEquals("=", tokenList.get(2).getValue());
 
         Assertions.assertEquals(StringLiteralToken.class, tokenList.get(3).getClass());
-        Assertions.assertEquals(value, ((StringLiteralToken) tokenList.get(3)).getLiteral().getValue());
+        Assertions.assertEquals(value, ((StringLiteralToken) tokenList.get(3)).getLiteral().getValue().substring(1, value.length() - 1));
 
         Assertions.assertEquals(SeparatorToken.class, tokenList.get(4).getClass());
         Assertions.assertEquals(";", tokenList.get(4).getValue());

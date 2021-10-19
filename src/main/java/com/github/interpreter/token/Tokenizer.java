@@ -128,7 +128,7 @@ public class Tokenizer {
 
     private LiteralToken<?> evaluateLiteral(String word) {
         if (word.startsWith("\"") && word.endsWith("\"")) {
-            return new StringLiteralToken(word);
+            return new StringLiteralToken(word.substring(1, word.length() - 1));
         } else if (NUMBER_PATTERN.matcher(word).matches()) {
             GenericType type = UtilType.getType(word);
             if (type == null) {

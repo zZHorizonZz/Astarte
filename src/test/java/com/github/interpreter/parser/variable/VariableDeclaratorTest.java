@@ -19,7 +19,7 @@ class VariableDeclaratorTest {
     @Test
     void testDeclaration() {
         VariableDeclarator variableDeclarator = new VariableDeclarator();
-        Tokenizer tokenizer = new Tokenizer("int field = 5 + 5;");
+        Tokenizer tokenizer = new Tokenizer("int field = 5 + 12;");
         List<Token> tokenList = tokenizer.tokenize();
 
         variableDeclarator.parse(tokenList.toArray(new Token[0]));
@@ -31,7 +31,7 @@ class VariableDeclaratorTest {
     @Test
     void testBuildField() {
         VariableDeclarator variableDeclarator = new VariableDeclarator();
-        Tokenizer tokenizer = new Tokenizer("int fieldBlock = 5 + 5;");
+        Tokenizer tokenizer = new Tokenizer("int fieldBlock = 5 + 8;");
         List<Token> tokenList = tokenizer.tokenize();
 
         FieldExpression fieldExpression = variableDeclarator.parse(tokenList.toArray(new Token[0]));
@@ -44,7 +44,7 @@ class VariableDeclaratorTest {
         Object number = fieldBlock.getValue();
 
         Assertions.assertEquals(Integer.class, number.getClass());
-        Assertions.assertEquals(10, ((Integer) number).getValue());
+        Assertions.assertEquals(13, ((Integer) number).getValue());
     }
 
     @Test
@@ -61,7 +61,7 @@ class VariableDeclaratorTest {
 
         FieldBlock fieldBlock = new FieldBlock();
         fieldBlock.construct(fieldExpression);
-        
+
         fieldBlock.initialize(null);
 
         Assertions.assertTrue(fieldBlock.isInitialized());

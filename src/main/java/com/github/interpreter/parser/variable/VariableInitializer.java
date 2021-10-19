@@ -58,10 +58,8 @@ public class VariableInitializer {
             }
 
             if (currentToken instanceof SeparatorToken) {
-                if (currentToken.getValue().equalsIgnoreCase(";")) {
-                    this.expression = rightSide;
-                    return expression;
-                }
+                this.expression = rightSide;
+                return expression;
             }
         }
 

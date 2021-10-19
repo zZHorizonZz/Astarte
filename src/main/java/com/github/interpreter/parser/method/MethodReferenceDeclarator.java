@@ -2,24 +2,28 @@ package com.github.interpreter.parser.method;
 
 import com.github.interpreter.common.language.UtilToken;
 import com.github.interpreter.parser.Declarator;
-import com.github.interpreter.parser.type.VariablePrefixDeclarator;
+import com.github.interpreter.parser.expression.Expression;
+import com.github.interpreter.parser.expression.MethodExpression;
+import com.github.interpreter.parser.variable.VariableInitializer;
 import com.github.interpreter.token.token.IdentifierToken;
 import com.github.interpreter.token.token.SeparatorToken;
 import com.github.interpreter.token.token.Token;
 import com.github.interpreter.token.token.literal.LiteralToken;
 import com.github.interpreter.validation.syntax.exception.UnknownSyntaxException;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MethodReferenceDeclarator implements Declarator<MethodReferenceDeclarator> {
+public class MethodReferenceDeclarator implements Declarator<MethodExpression> {
 
     private String name;
-    private VariablePrefixDeclarator[] returnType;
-    private VariablePrefixDeclarator[] arguments;
+
+    private List<Expression> arguments = new LinkedList<>();
+    private Expression returnType;
 
     @Override
-    public MethodReferenceDeclarator parse(Token[] tokens) {
+    public MethodExpression parse(Token[] tokens) {
         Token identifier = tokens[0];
 
         if (!(identifier instanceof IdentifierToken)) {
@@ -33,11 +37,11 @@ public class MethodReferenceDeclarator implements Declarator<MethodReferenceDecl
         }
 
         Token[] arguments = UtilToken.getBlock(tokens, "(", ")");
-        if (arguments.length > 2) {
+        if (arguments.length > 1) {
             parseArguments(arguments);
         }
 
-        return null;
+        return new MethodExpression(name, this.arguments.toArray(Expression[]::new));
     }
 
     private void parseArguments(Token[] tokens) {
@@ -51,7 +55,7 @@ public class MethodReferenceDeclarator implements Declarator<MethodReferenceDecl
             return;
         }
 
-        List<VariablePrefixDeclarator> arguments = new LinkedList<>();
+        List<Expression> arguments = new LinkedList<>();
 
         for (int i = 1; i < tokens.length; i++) {
             Token token = tokens[i];
@@ -59,28 +63,31 @@ public class MethodReferenceDeclarator implements Declarator<MethodReferenceDecl
                 continue;
             }
 
-            if (token instanceof IdentifierToken || token instanceof LiteralToken) {
-                VariablePrefixDeclarator argument = new VariablePrefixDeclarator();
-                argument.parse(new Token[]{token, tokens[i++]});
+            if (token instanceof IdentifierToken) {
 
-                arguments.add(argument);
+            } else if (token instanceof LiteralToken) {
+                VariableInitializer initializer = new VariableInitializer();
+                Token[] variableTokens = UtilToken.getBlock(Arrays.copyOfRange(tokens, i, tokens.length), null, ",");
+                arguments.add(initializer.parse(variableTokens));
+
+                i += variableTokens.length;
             } else {
                 throw new UnknownSyntaxException("Argument of method can not be initialized because it doesn't have identifier or type declared.");
             }
         }
 
-        this.arguments = arguments.toArray(VariablePrefixDeclarator[]::new);
+        this.arguments = arguments;
     }
 
     public String getName() {
         return name;
     }
 
-    public VariablePrefixDeclarator[] getReturnType() {
-        return returnType;
+    public List<Expression> getArguments() {
+        return arguments;
     }
 
-    public VariablePrefixDeclarator[] getArguments() {
-        return arguments;
+    public Expression getReturnType() {
+        return returnType;
     }
 }
