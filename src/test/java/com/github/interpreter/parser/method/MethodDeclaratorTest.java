@@ -1,5 +1,6 @@
 package com.github.interpreter.parser.method;
 
+import com.github.interpreter.language.Class;
 import com.github.interpreter.language.method.Method;
 import com.github.interpreter.language.method.MethodBlock;
 import com.github.interpreter.language.number.Integer;
@@ -53,7 +54,7 @@ class MethodDeclaratorTest {
 
         MethodBlockDeclarator blockDeclarator = methodDeclarator.parse(tokenizer.tokenize().toArray(Token[]::new)).getBlockDeclarator();
 
-        MethodBlock methodBlock = new MethodBlock(new Method());
+        MethodBlock methodBlock = new MethodBlock(new Method(new Class()));
         methodBlock.construct(blockDeclarator);
 
         Assertions.assertEquals(2, methodBlock.getFieldMap().size());
@@ -63,5 +64,26 @@ class MethodDeclaratorTest {
         Assertions.assertEquals(5, ((Integer) methodBlock.getFieldMap().get("test").getValue()).getValue());
         Assertions.assertEquals(Integer.class, methodBlock.getFieldMap().get("test1").getValue().getClass());
         Assertions.assertEquals(5, ((Integer) methodBlock.getFieldMap().get("test1").getValue()).getValue());
+    }
+
+    @Test
+    void testParseAndMethodReference() {
+        Class aClass = new Class();
+        Tokenizer tokenizer1 = new Tokenizer("parse(string value, int number) { testReference(); }");
+        Tokenizer tokenizer2 = new Tokenizer("testReference() { }");
+
+        MethodDeclarator methodDeclarator1 = new MethodDeclarator().parse(tokenizer1.tokenize().toArray(Token[]::new));
+        MethodDeclarator methodDeclarator2 = new MethodDeclarator().parse(tokenizer2.tokenize().toArray(Token[]::new));
+
+        Method method1 = new Method(aClass);
+        method1.construct(methodDeclarator1);
+
+        Method method2 = new Method(aClass);
+        method2.construct(methodDeclarator2);
+
+        aClass.getMethods().add(method1.getName(), method1);
+        aClass.getMethods().add(method2.getName(), method2);
+
+        method1.invoke();
     }
 }

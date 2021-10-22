@@ -3,7 +3,7 @@ package com.github.interpreter.parser.method;
 import com.github.interpreter.common.language.UtilToken;
 import com.github.interpreter.parser.Declarator;
 import com.github.interpreter.parser.expression.Expression;
-import com.github.interpreter.parser.expression.MethodExpression;
+import com.github.interpreter.parser.expression.MethodReferenceExpression;
 import com.github.interpreter.parser.variable.VariableInitializer;
 import com.github.interpreter.token.token.IdentifierToken;
 import com.github.interpreter.token.token.SeparatorToken;
@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class MethodReferenceDeclarator implements Declarator<MethodExpression> {
+public class MethodReferenceDeclarator implements Declarator<MethodReferenceExpression> {
 
     private String name;
 
@@ -23,7 +23,7 @@ public class MethodReferenceDeclarator implements Declarator<MethodExpression> {
     private Expression returnType;
 
     @Override
-    public MethodExpression parse(Token[] tokens) {
+    public MethodReferenceExpression parse(Token[] tokens) {
         Token identifier = tokens[0];
 
         if (!(identifier instanceof IdentifierToken)) {
@@ -41,7 +41,7 @@ public class MethodReferenceDeclarator implements Declarator<MethodExpression> {
             parseArguments(arguments);
         }
 
-        return new MethodExpression(name, this.arguments.toArray(Expression[]::new));
+        return new MethodReferenceExpression(name, this.arguments.toArray(Expression[]::new));
     }
 
     private void parseArguments(Token[] tokens) {

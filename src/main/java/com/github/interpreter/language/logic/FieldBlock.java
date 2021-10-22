@@ -20,7 +20,7 @@ public class FieldBlock implements Block, Constructor<FieldExpression> {
     private Object value;
 
     public FieldBlock() {
-        System.out.println();
+        
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.github.interpreter.language.method;
 
+import com.github.interpreter.language.Class;
 import com.github.interpreter.language.logic.FieldBlock;
 import com.github.interpreter.language.number.Integer;
 import com.github.interpreter.parser.method.MethodBlockDeclarator;
@@ -20,7 +21,7 @@ class MethodBlockTest {
 
         blockDeclarator.parse(tokenizer.tokenize().toArray(Token[]::new));
 
-        MethodBlock block = new MethodBlock(new Method());
+        MethodBlock block = new MethodBlock(new Method(new Class()));
         block.construct(blockDeclarator);
 
         Assertions.assertEquals(2, block.getBlockList().size());
@@ -38,7 +39,7 @@ class MethodBlockTest {
 
         blockDeclarator.parse(tokenizer.tokenize().toArray(Token[]::new));
 
-        MethodBlock block = new MethodBlock(new Method());
+        MethodBlock block = new MethodBlock(new Method(new Class()));
         block.construct(blockDeclarator);
         block.invoke();
 

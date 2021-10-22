@@ -4,6 +4,7 @@ import com.github.interpreter.language.Constructor;
 import com.github.interpreter.language.Object;
 import com.github.interpreter.language.logic.Block;
 import com.github.interpreter.language.logic.FieldBlock;
+import com.github.interpreter.language.logic.ReferenceBlock;
 import com.github.interpreter.parser.expression.Expression;
 import com.github.interpreter.parser.expression.FieldExpression;
 import com.github.interpreter.parser.method.MethodBlockDeclarator;
@@ -50,6 +51,10 @@ public class MethodBlock implements Constructor<MethodBlockDeclarator> {
         for (Block block : blockList) {
             if (block instanceof FieldBlock) {
                 ((FieldBlock) block).initialize(this);
+            }
+
+            if (block instanceof ReferenceBlock) {
+                ((ReferenceBlock) block).invoke(this);
             }
         }
 
